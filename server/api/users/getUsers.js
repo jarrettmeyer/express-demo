@@ -1,3 +1,8 @@
+const users = require('../../services').users;
+
 module.exports = function (req, res, next) {
-  res.send([]);
+  return users.findAll()
+    .then((result) => {
+      return res.json(result);
+    });
 };
