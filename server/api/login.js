@@ -5,12 +5,22 @@ const services = require('../services');
 
 module.exports = function (req, res) {
   let credentials = req.body;
+  let now = new Date();
+  let token = null;
+  let user = null;
   return services.authentication.checkCredentials(credentials)
-    .then(services.authentication.createToken)
-    .then((token) => {
-      res.send({ token: token });
+    .then((_user) => {
+      user = _user;
+      return services.authentication.createToken(now);
+    })
+    .then((_token) => {
+      token = _token;
+      return services.users.updateTokenIssuedAt(user.id, now);
+    })
+    .then(() => {
+      return res.send({ token: token });
     })
     .catch(errors.InvalidCredentials, (error) => {
-      res.status(401).send(error.message);
+      return res.status(401).send(error.message);
     });
 };

@@ -19,6 +19,6 @@ function error(err) {
 }
 
 function truncateTable(table) {
-  let sql = `TRUNCATE ${table}`;
+  let sql = `TRUNCATE ${table} RESTART IDENTITY;`;
   return executeQuery(sql);
 }

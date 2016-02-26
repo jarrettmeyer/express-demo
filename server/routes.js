@@ -10,6 +10,6 @@ router.get('/api/status', api.getStatus);
 
 router.post('/api/login', api.login);
 
-router.get('/api/users', authenticateWithToken, requireAdmin, api.users.getUsers);
+router.get('/api/users', authenticateWithToken, requireAdmin, api.users.getAll);
 
 module.exports = router;

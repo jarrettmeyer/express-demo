@@ -2,7 +2,7 @@
 
 const executeQuery = require('../data/executeQuery');
 const hashPassword = require('../authentication/hashPassword');
-const User = require('./User');
+const User = require('../../models').User;
 const validate = require('./validate');
 
 const sql = `INSERT INTO users (email, hashed_password, admin, removed)

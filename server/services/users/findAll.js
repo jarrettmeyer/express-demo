@@ -1,7 +1,7 @@
 'use strict';
 
 const executeQuery = require('../data/executeQuery');
-const User = require('./User');
+const User = require('../../models').User;
 
 const sql = `SELECT * FROM users;`;
 

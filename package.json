@@ -8,6 +8,7 @@
     "test": "./scripts/test.sh"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "bcrypt": "^0.8.5",
     "bluebird": "^3.3.3",
     "body-parser": "~1.13.2",
