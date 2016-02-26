@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const executeQuery = require('../data/executeQuery');
 const hashPassword = require('../authentication/hashPassword');

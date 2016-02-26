@@ -1,8 +1,9 @@
 'use strict';
 
 const executeQuery = require('../data/executeQuery');
-const sql = `SELECT * FROM users;`;
 const User = require('./User');
+
+const sql = `SELECT * FROM users;`;
 
 module.exports = () => {
   return executeQuery(sql)

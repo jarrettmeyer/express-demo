@@ -1,3 +1,5 @@
+'use strict';
+
 const executeQuery = require('../data/executeQuery');
 const sql = `SELECT * FROM users WHERE email = $1::varchar LIMIT 1`;
 const User = require('./User');
