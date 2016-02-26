@@ -2,6 +2,7 @@
 
 const executeQuery = require('../data/executeQuery');
 const hashPassword = require('../authentication/hashPassword');
+const User = require('./User');
 const validate = require('./validate');
 
 const sql = `INSERT INTO users (email, hashed_password, admin, removed)
@@ -16,6 +17,6 @@ module.exports = (user) => {
       return executeQuery(sql, params);
     })
     .then(function (result) {
-      return result.rows[0];
+      return new User(result.rows[0]);
     });
 }

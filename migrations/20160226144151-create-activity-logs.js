@@ -17,8 +17,8 @@ exports.setup = function(options, seedLink) {
 exports.up = function(db, callback) {
   return db.createTable('activity_logs', {
     id: { type: 'serial', primaryKey: true },
-    ref_type: { type: 'varchar', notNull: true, length: 255 },
-    ref_id: { type: 'integer', notNull: true },
+    ref_type: { type: 'varchar', length: 255 },
+    ref_id: { type: 'integer' },
     description: { type: 'varchar', length: 2000 },
     user_id: { type: 'integer' },
     created_at: { type: 'timestamp' }
