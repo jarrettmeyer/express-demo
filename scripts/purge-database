@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+"use strict";
+const Promise = require('bluebird');
+const executeQuery = require('../server/services').data.executeQuery;
+
+const tables = ['users'];
+
+Promise.map(tables, truncateTable)
+  .then(done)
+  .catch(error);
+
+function done() {
+  process.exit(0);
+}
+
+function error(err) {
+  console.error(err);
+  process.exit(1);
+}
+
+function truncateTable(table) {
+  let sql = `TRUNCATE ${table}`;
+  return executeQuery(sql);
+}

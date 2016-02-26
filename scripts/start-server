@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const app = require('../server/app');
+const debug = require('debug')('server');
+const http = require('http');
+const normalizePort = require('../server/utils/normalizePort');
+const onServerError = require('../server/utils/onServerError');
+const onServerListening = require('../server/utils/onServerListening');
+
+debug('Starting Express application.');
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+var server = http.createServer(app);
+server.listen(port);
+server.on('error', onServerError(server));
+server.on('listening', onServerListening(server));

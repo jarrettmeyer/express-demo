@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+const Promise = require('bluebird');
+const services = require('../server/services');
+
+const users = require('../fixtures/users');
+var insertUsers = Promise.map(users, services.users.create);
+
+return insertUsers
+  .then(done)
+  .catch(error);
+
+function done() {
+  process.exit(0);
+}
+
+function error(error) {
+  console.error(error);
+  process.exit(1);
+}
