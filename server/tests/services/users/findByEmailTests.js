@@ -7,7 +7,8 @@ describe('users/findByEmail', () => {
     return findByEmail('admin@example.com')
       .then(function (result) {
         expect(result.id).to.be.greaterThan(0);
-      });
+      })
+      .catch();
   });
 
   it('returns null when no user is found', () => {

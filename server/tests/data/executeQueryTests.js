@@ -1,5 +1,8 @@
-const executeQuery = require('../../../services/data/executeQuery');
+const data = require('../../data');
 const expect = require('chai').expect;
+
+const executeQuery = data.executeQuery;
+const getClient = data.getClient;
 
 describe('data/executeQuery()', () => {
 

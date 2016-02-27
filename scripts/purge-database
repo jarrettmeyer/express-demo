@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 "use strict";
 const Promise = require('bluebird');
-const executeQuery = require('../server/services').data.executeQuery;
+const executeQuery = require('../server/data').executeQuery;
 
-const tables = ['users'];
+const tables = ['activity_logs', 'documents', 'users'];
 
 Promise.map(tables, truncateTable)
   .then(done)

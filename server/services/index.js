@@ -1,6 +1,6 @@
 module.exports = {
   activityLogs: require('./activityLogs'),
   authentication: require('./authentication'),
-  data: require('./data'),
+  documents: require('./documents'),
   users: require('./users')
 }

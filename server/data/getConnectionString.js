@@ -1,5 +1,5 @@
 "use strict"
-const dbConfig = require('../../../database.json');
+const dbConfig = require('../../database.json');
 
 module.exports = function () {
   let connString = getConnectionStringFromEnvironment();

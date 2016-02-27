@@ -1,6 +1,6 @@
 'use strict';
 
-const executeQuery = require('../data/executeQuery');
+const executeQuery = require('../../data/executeQuery');
 const User = require('../../models').User;
 
 const sql = `SELECT * FROM users WHERE email = $1::varchar LIMIT 1`;

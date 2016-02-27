@@ -1,6 +1,6 @@
 'use strict';
 
-const executeQuery = require('../data/executeQuery');
+const executeQuery = require('../../data/executeQuery');
 const hashPassword = require('../authentication/hashPassword');
 const User = require('../../models').User;
 const validate = require('./validate');
