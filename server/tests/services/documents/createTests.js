@@ -18,7 +18,18 @@ describe('documents/create()', () => {
     };
   })
 
-  it('inserts a new activity log row');
+  it('inserts a new activity log row', () => {
+    return create(docData)
+      .then(doc => {
+        var sql = `SELECT * FROM activity_logs WHERE ref_type = 'document' AND ref_id = ${doc.id} AND description = 'create document';`;
+        return executeQuery(sql);
+      })
+      .then(result => {
+        expect(result.rows.length).to.equal(1);
+        var row = result.rows[0];
+        expect(row.id).to.be.greaterThan(0);
+      });
+  });
 
   it('inserts a new document row', () => {
     return create(docData)
@@ -34,8 +45,18 @@ describe('documents/create()', () => {
       })
   });
 
-  it('sets published: false');
+  it('sets published: false', () => {
+    return create(docData)
+      .then(doc => {
+        expect(doc.published).to.equal(false);
+      });
+  });
 
-  it('sets removed: false');
+  it('sets removed: false', () => {
+    return create(docData)
+      .then(doc => {
+        expect(doc.removed).to.equal(false);
+      });
+  });
 
 });
