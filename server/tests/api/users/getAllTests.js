@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const getTokenForEmail = require('../../getTokenForEmail');
+const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
 const testUnauthorizedRequest = require('../testUnauthorizedRequest');
 const testForbiddenRequest = require('../testForbiddenRequest');

@@ -1,4 +1,4 @@
-const getTokenForEmail = require('../getTokenForEmail');
+const getTokenForEmail = require('./getTokenForEmail');
 
 module.exports = (request, method, url, email) => {
   var token = getTokenForEmail(email);
