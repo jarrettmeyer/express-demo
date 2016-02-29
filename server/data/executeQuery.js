@@ -19,7 +19,7 @@ module.exports = (client, sql, sqlParams) => {
     .then(results => {
       // begin, query, commit should return 3 result sets.
       if (results.length !== 3) {
-        throw new Error(`Expected 3 results, but instead found ${results.length}. SQL: ${sql}`);
+        throw new Error(`Expected 3 results, but instead found ${results.length}. SQL: ${sql}. Params: ${sqlParams}.`);
       }
       return results[1];
     });
