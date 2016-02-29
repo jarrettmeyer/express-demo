@@ -8,10 +8,19 @@ const testForbiddenRequest = require('../testForbiddenRequest');
 
 describe('GET /api/users', () => {
 
+  var validToken;
+
+  beforeEach(() => {
+    return getTokenForEmail('admin@example.com')
+      .then(token => {
+        validToken = token;
+      });
+  });
+
   it('returns a collection of users', () => {
     return request()
       .get('/api/users')
-      .set('Authorization', getTokenForEmail('admin@example.com'))
+      .set('Authorization', validToken)
       .expect(200)
       .then((response) => {
         expect(Array.isArray(response.body)).to.equal(true);

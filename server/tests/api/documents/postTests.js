@@ -9,7 +9,7 @@ const url = '/api/documents';
 
 describe('POST /api/documents', () => {
 
-  var postData, title;
+  var postData, title, validToken;
 
   beforeEach(() => {
     title = `test document ${Date.now()}`;
@@ -19,12 +19,16 @@ describe('POST /api/documents', () => {
         abstract: `This is an API test. It was created at ${new Date()}`
       }
     };
+    return getTokenForEmail('alice@example.com')
+      .then(token => {
+        validToken = token;
+      });
   });
 
   it('returns 201', () => {
     return request()
       .post(url)
-      .set('Authorization', getTokenForEmail('alice@example.com'))
+      .set('Authorization', validToken)
       .send(postData)
       .expect(201)
       .then(response => {
@@ -40,7 +44,7 @@ describe('POST /api/documents', () => {
   it('returns the document object', () => {
     return request()
       .post(url)
-      .set('Authorization', getTokenForEmail('alice@example.com'))
+      .set('Authorization', validToken)
       .send(postData)
       .then(response => {
         expect(response.body.document).to.exist;
@@ -51,7 +55,7 @@ describe('POST /api/documents', () => {
   it('sets the document ownerId', () => {
     return request()
       .post(url)
-      .set('Authorization', getTokenForEmail('alice@example.com'))
+      .set('Authorization', validToken)
       .send(postData)
       .expect(201)
       .then(response => {
