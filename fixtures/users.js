@@ -13,4 +13,9 @@ module.exports = [{
   clearPassword: 'test',
   admin: false,
   removed: true
+}, {
+  email: 'claire@example.com',
+  clearPassword: 'test',
+  admin: false,
+  removed: false
 }];
