@@ -18,6 +18,9 @@ function buildConnectionString(nodeEnv) {
   return connString;
 }
 
+/**
+ * Get the connection string from the system environment variable.
+ */
 function getConnectionStringFromEnvironment() {
   return process.env['CONNECTION_STRING'];
 }

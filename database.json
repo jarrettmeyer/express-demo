@@ -14,5 +14,13 @@
     "host": "localhost",
     "schema": "public",
     "database": "express_demo_test"
+  },
+  "production": {
+    "driver": "pg",
+    "user": "express_demo",
+    "password": "express_demo",
+    "host": "localhost",
+    "schema": "public",
+    "database": "express_demo"
   }
 }
