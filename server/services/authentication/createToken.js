@@ -3,17 +3,23 @@
 const debug = require('debug')('server');
 const getTokenSecret = require('./getTokenSecret');
 const jwt = require('jwt-simple');
+const _  = require('lodash');
 
-module.exports = (user, now) => {
-  now = now || new Date();
+const defaults = {
+  expiresDays: 28,
+  now: new Date()
+};
+
+module.exports = (user, options) => {
+  options = _.defaults(options, defaults);
   let secret = getTokenSecret();
   let tokenBody = {
     email: user.email,
-    issued: now.getTime(),
-    expires: now.getTime() + addDays(28)
+    issued: options.now.getTime(),
+    expires: options.now.getTime() + addDays(options.expiresDays)
   };
-  // debug(`Token body: ${JSON.stringify(tokenBody)}`);
   let token = jwt.encode(tokenBody, secret);
+  debug(`Created new token for user ${user.email}.`);
   return token;
 };
 

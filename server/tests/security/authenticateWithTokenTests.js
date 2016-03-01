@@ -1,18 +1,21 @@
+const argv = require('../../utils/argv');
 const authenticateWithToken = require('../../security/authenticateWithToken');
 const expect = require('chai').expect;
 const getTokenForEmail = require('../api/getTokenForEmail');
+const Promise = require('bluebird');
 
 describe('security/authenticateWithToken()', () => {
 
   var email = null;
   var isNextCalled = false;
+  var nextArgs = null;
   var request = null;
   var response = null;
 
   beforeEach(() => {
     email = 'dorothy@example.com';
     isNextCalled = false;
-    nextArgs = null;
+    nextArgs = [];
     request = {
       headers: {
         authorization: null
@@ -21,11 +24,8 @@ describe('security/authenticateWithToken()', () => {
   });
 
   it('fails when token is expired', () => {
-    return getTokenForEmail('elizabeth@example.com')
-      .then(token => {
-        request.headers.authorization = token;
-        return authenticateWithToken(request, response, next)
-      })
+    request.headers.authorization = getTokenForEmail('elizabeth@example.com', { expiresDays: -2 });
+    return authenticateWithToken(request, response, next)
       .then(() => {
         expect(isNextCalled).to.equal(true);
         expect(request.user).to.be.undefined;
@@ -33,11 +33,9 @@ describe('security/authenticateWithToken()', () => {
   });
 
   it('fails when token is not the expected format', () => {
-    return getTokenForEmail(email)
-      .then(token => {
-        request.headers.authorization = token.split(' ')[1];
-        return authenticateWithToken(request, response, next)
-      })
+    var token = getTokenForEmail(email);
+    request.headers.authorization = token.split(' ')[1];
+    return authenticateWithToken(request, response, next)
       .then(() => {
         expect(isNextCalled).to.equal(true);
         expect(request.user).to.be.undefined;
@@ -45,37 +43,31 @@ describe('security/authenticateWithToken()', () => {
   });
 
   it('fails when token issued timestamp does not match', () => {
-    return getTokenForEmail(email, new Date())
-      .then(token => {
-        request.headers.authorization = token;
-        return authenticateWithToken(request, response, next)
-      })
+    request.headers.authorization = getTokenForEmail(email, { now: new Date() });
+    return authenticateWithToken(request, response, next)
       .then(() => {
         expect(isNextCalled).to.equal(true);
+        expect(nextArgs.length).to.equal(1);
         expect(request.user).to.be.undefined;
       });
   });
 
   it('fails when user has been removed', () => {
-    return getTokenForEmail('betty@example.com')
-      .then(token => {
-        request.headers.authorization = token;
-        return authenticateWithToken(request, response, next)
-      })
+    request.headers.authorization = getTokenForEmail('betty@example.com');
+    return authenticateWithToken(request, response, next)
       .then(() => {
         expect(isNextCalled).to.equal(true);
+        expect(nextArgs.length).to.equal(1);
         expect(request.user).to.be.undefined;
       });
   });
 
   it('succeeds when all conditions are met', () => {
-    return getTokenForEmail(email)
-      .then(token => {
-        request.headers.authorization = token;
-        return authenticateWithToken(request, response, next)
-      })
+    request.headers.authorization = getTokenForEmail('elizabeth@example.com', { expiresDays: 999999 });
+    return authenticateWithToken(request, response, next)
       .then(() => {
         expect(isNextCalled).to.equal(true);
+        expect(nextArgs.length).to.equal(0);
         expect(request.user).to.exist;
         expect(request.user.id).to.be.greaterThan(0);
       });
@@ -83,6 +75,8 @@ describe('security/authenticateWithToken()', () => {
 
   function next() {
     isNextCalled = true;
+    nextArgs = argv(arguments);
+    return Promise.resolve();
   }
 
 });

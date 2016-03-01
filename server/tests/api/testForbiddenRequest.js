@@ -1,10 +1,7 @@
 const getTokenForEmail = require('./getTokenForEmail');
 
 module.exports = (request, method, url, email) => {
-  return getTokenForEmail(email)
-    .then(token => {
-      return request()[method](url)
-       .set('Authorization', token)
-       .expect(403);
-    });
+  return request()[method](url)
+    .set('Authorization', getTokenForEmail(email))
+    .expect(403);
 };

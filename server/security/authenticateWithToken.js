@@ -48,7 +48,7 @@ module.exports = function (request, response, next) {
         return next(new HttpError(401, 'Unauthorized'));
       }
       request.user = user;
-      debug(`Verified token. Current user: ${request.user.email}`);
+      debug(`\u2714 Verified token. Current user: ${request.user.email}`);
       return next();
     });
 };

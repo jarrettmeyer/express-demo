@@ -19,10 +19,7 @@ describe('POST /api/documents', () => {
         abstract: `This is an API test. It was created at ${new Date()}`
       }
     };
-    return getTokenForEmail('alice@example.com')
-      .then(token => {
-        validToken = token;
-      });
+    validToken = getTokenForEmail('alice@example.com');
   });
 
   it('returns 201', () => {

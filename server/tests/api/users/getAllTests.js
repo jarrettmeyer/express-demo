@@ -11,10 +11,7 @@ describe('GET /api/users', () => {
   var validToken;
 
   beforeEach(() => {
-    return getTokenForEmail('admin@example.com')
-      .then(token => {
-        validToken = token;
-      });
+    validToken = getTokenForEmail('admin@example.com');
   });
 
   it('returns a collection of users', () => {
@@ -33,7 +30,7 @@ describe('GET /api/users', () => {
   });
 
   it('returns 403 when access is forbidden', function () {
-    return testForbiddenRequest(request, 'get', '/api/users', 'alice@example.com');
+    return testForbiddenRequest(request, 'get', '/api/users', 'elizabeth@example.com');
   });
 
 });
