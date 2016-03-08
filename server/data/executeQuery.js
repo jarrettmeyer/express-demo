@@ -4,12 +4,12 @@ const createTransaction = require('./createTransaction');
 const debug = require('debug')('sql');
 const Promise = require('bluebird');
 
-module.exports = (client, sql, sqlParams) => {
-  if (typeof client === 'string') {
-    sqlParams = sql;
-    sql = client;
-    client = null;
+module.exports = (sql, sqlParams, options) => {
+  if (typeof sqlParams === 'object' && !Array.isArray(sqlParams)) {
+    options = sqlParams;
+    sqlParams = [];
   }
+  let client = options && options.client;
   return createTransaction(client)
     .then(txn => {
       txn.begin()
