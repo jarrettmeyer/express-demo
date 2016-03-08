@@ -16,6 +16,7 @@ exports.up = function(db, callback) {
     owner_id: { type: 'integer', notNull: true },
     title: { type: 'varchar', length: 255 },
     abstract: { type: 'varchar', length: 2048 },
+    original_filename: { type: 'varchar', length: 255 },
     path: { type: 'varchar', length: 255 },
     type: { type: 'varchar', length: 255 },
     published: { type: 'boolean', defaultValue: false},

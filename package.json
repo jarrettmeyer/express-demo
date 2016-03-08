@@ -20,6 +20,7 @@
     "lodash": "^4.5.1",
     "mocha": "^2.4.5",
     "morgan": "~1.6.1",
+    "node-uuid": "^1.4.7",
     "pg": "^4.5.1",
     "supertest": "^1.2.0",
     "supertest-as-promised": "^3.0.0"
