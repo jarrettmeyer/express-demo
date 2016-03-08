@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "./scripts/build",
+    "build": "./scripts/build.sh",
     "start": "DEBUG=server,sql ./scripts/start-server",
     "test": "./scripts/test.sh"
   },
