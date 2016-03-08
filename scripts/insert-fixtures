@@ -1,12 +1,31 @@
 #!/usr/bin/env node
+'use strict';
 
 const Promise = require('bluebird');
 const services = require('../server/services');
-
+const documents = require('../fixtures/documents');
 const users = require('../fixtures/users');
-var insertUsers = Promise.map(users, services.users.create);
+const _ = require('lodash');
 
-return insertUsers
+let result = {};
+
+return Promise.map(users, services.users.create)
+  .then(savedUsers => {
+    result.users = savedUsers;
+    documents.forEach(doc => {
+      doc.owner = _.find(result.users, { email: doc.ownerEmail });
+      if (!doc.owner) {
+        throw new Error(`Document ${doc.title} does not have a valid owner. Email: ${doc.ownerEmail}.`);
+      }
+      else {
+        doc.ownerId = doc.owner.id;
+      }
+    });
+    return Promise.map(documents, services.documents.create);
+  })
+  .then(savedDocuments => {
+    result.documents = savedDocuments;
+  })
   .then(done)
   .catch(error);
 

@@ -2,7 +2,6 @@
 
 const documents = require('../../services').documents;
 
-
 module.exports = (request, response) => {
   let documentData = request.body.document;
   if (!documentData) {

@@ -20,8 +20,15 @@ module.exports = (document) => {
     .then(_txn => {
       txn = _txn;
       txn.begin();
-      params = [document.ownerId, document.title, document.abstract, document.path,
-        document.type, false, false ];
+      params = [
+        document.owner_id || document.ownerId,
+        document.title,
+        document.abstract,
+        document.path,
+        document.type,
+        document.published === true,
+        document.removed === true
+      ];
       return txn.query(sql, params);
     })
     .then(results => {
