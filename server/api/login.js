@@ -11,7 +11,7 @@ module.exports = function (req, res) {
   return services.authentication.checkCredentials(credentials)
     .then((_user) => {
       user = _user;
-      return services.authentication.createToken(now);
+      return services.authentication.createToken(user.email, { now: now });
     })
     .then((_token) => {
       token = _token;

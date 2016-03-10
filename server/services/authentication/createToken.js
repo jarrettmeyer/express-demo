@@ -10,16 +10,19 @@ const defaults = {
   now: new Date()
 };
 
-module.exports = (user, options) => {
+module.exports = (email, options) => {
   options = _.defaults(options, defaults);
+  if (email.email) { // Probably sent a user object instead.
+    email = email.email;
+  }
   let secret = getTokenSecret();
   let tokenBody = {
-    email: user.email,
+    email: email,
     issued: options.now.getTime(),
     expires: options.now.getTime() + addDays(options.expiresDays)
   };
   let token = jwt.encode(tokenBody, secret);
-  debug(`Created new token for user ${user.email}.`);
+  debug(`Created new token for user ${email}.`);
   return token;
 };
 

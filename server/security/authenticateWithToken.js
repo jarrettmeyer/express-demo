@@ -26,6 +26,7 @@ module.exports = function (request, response, next) {
     debug(`Unabled to use token. Token has expired.`);
     return next(unauthorized());
   }
+  debug(`Decoded token: ${JSON.stringify(decodedToken)}`);
   return users.findByEmail(decodedToken.email)
     .then(function (user) {
       if (!user) {
