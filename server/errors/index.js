@@ -1,4 +1,5 @@
 module.exports = {
+  HttpBadRequest: require('./HttpBadRequest'),
   HttpError: require('./HttpError'),
   HttpForbidden: require('./HttpForbidden'),
   HttpNotFound: require('./HttpNotFound'),
