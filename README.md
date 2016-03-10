@@ -99,6 +99,27 @@ Attach a file to a document. A document can have exactly one file associated wit
 
 Get a list of all users in the application. This is only allowed if the user is an administrator.
 
+```
+response body:
+{
+  users: [{
+    id: 2,
+    displayName: "Alice A",
+    email: "alice@example.com",
+    admin: false,
+    tokenIssuedAt: "2016-03-10T11:05:48.532Z"
+  }, {
+    id: 3,
+    displayName: "Betty B",
+    email: "betty@example.com",
+    admin: false,
+    tokenIssuedAt: "2016-02-16T18:43:12.630Z"
+  }, {
+    /* snip */
+  }]
+}
+```
+
 ## Running tests
 
 ```
