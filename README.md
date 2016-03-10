@@ -26,7 +26,7 @@ $ npm start
 Or, if you would like to make changes and see the changes without restarts, use [nodemon](https://www.npmjs.com/package/nodemon). This will run your `start` script automatically for you.
 
 ```
-$ nodemon
+$ nodemon --watch server
 ```
 
 ### Available endpoints
@@ -84,6 +84,24 @@ response body:
   }, {
     /* snip */
   }]
+}
+```
+
+#### GET /api/documents/:id
+
+Get a document by id. User must be authenticated. The document must be published, or the document must belong to the current user.
+
+```
+response body:
+{
+  document: {
+    id: 1,
+    ownerId: 2,
+    title: "Fixture document #1",
+    abstract: "Fixture document #1",
+    type: "text/plain",
+    published: true
+  }
 }
 ```
 
