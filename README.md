@@ -31,9 +31,61 @@ $ nodemon
 
 ### Available endpoints
 
+#### GET /api/status
+
+Check to see if the application is up.
+
+```
+response body:
+{
+  status: "server is up",
+  timestamp:1457577707037
+}
+```
+
+#### POST /api/login
+
+Login to the application.
+
+```
+POST body:
+{
+  email: <user_email>,
+  password: <user_password>
+}
+
+response:
+{
+  token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3N1ZWQiOjE0NTc1Nzc4NTQwOTksImV4cGlyZXMiOjE0NTk5OTcwNTQwOTl9.dsjbWnQIxvkTFRoXN3pC8euW2HLoPVsHiUdI9Tgjp8s"
+}
+```
+
 #### GET /api/documents
 
-Get all documents that are visible to the user. This will include all of the user's documents and all documents from other users that have been flagged as published.
+Get all documents that are visible to the user. This will include all of the user's documents and all documents from other users that have been flagged as published. User must be authenticated.
+
+```
+response body:
+{
+  documents: [{
+    id: 1,
+    ownerId: 2,
+    title: "Fixture document #1",
+    abstract: "Fixture document #1",
+    type: "text/plain",
+    published: true
+  }, {
+    id":3,
+    ownerId: 4,
+    title: "Fixture document #4",
+    abstract: "Fixture document #4.",
+    type: "text/plain",
+    published: true
+  }, {
+    /* snip */
+  }]
+}
+```
 
 #### POST /api/documents
 
