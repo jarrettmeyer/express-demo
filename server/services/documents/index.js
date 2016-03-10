@@ -1,4 +1,6 @@
 module.exports = {
   create: require('./create'),
-  findAll: require('./findAll')
+  findAll: require('./findAll'),
+  findById: require('./findById'),
+  update: require('./update')
 };

@@ -13,8 +13,20 @@ class Document {
     this.title = spec.title;
     this.abstract = spec.abstract;
     this.type = spec.type;
+    this.path = spec.path;
     this.published = spec.published;
     this.removed = spec.removed;
+  }
+
+  toJSON() {
+    return {
+      id: this.id,
+      ownerId: this.ownerId,
+      title: this.title,
+      abstract: this.abstract,
+      type: this.type,
+      published: this.published
+    }
   }
 }
 

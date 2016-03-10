@@ -13,6 +13,10 @@ module.exports = (request, response) => {
   return documents.findAll({ ownerId: request.user.id })
     .then(documents => {
       return response.status(200)
-        .json({ documents: documents });
+        .json({
+          documents: documents.map(doc => {
+            return doc.toJSON();
+          })
+        });
     });
 };

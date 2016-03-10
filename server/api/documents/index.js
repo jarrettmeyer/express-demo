@@ -1,4 +1,5 @@
 module.exports = {
   getAll: require('./getAll'),
-  post: require('./post')
+  post: require('./post'),
+  postFile: require('./postFile')
 };

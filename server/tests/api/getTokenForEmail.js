@@ -23,5 +23,5 @@ module.exports = (email, options) => {
   if (!options.now) {
     options.now = user.tokenIssuedAt;
   }
-return `Token: ${createToken(user, options)}`;
+  return `Token: ${createToken(user, options)}`;
 };
