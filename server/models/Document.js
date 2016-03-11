@@ -12,6 +12,7 @@ class Document {
     this.ownerId = spec.ownerId || spec.owner_id;
     this.title = spec.title;
     this.abstract = spec.abstract;
+    this.originalFilename = spec.originalFilename || spec.original_filename;
     this.type = spec.type;
     this.path = spec.path;
     this.published = spec.published;

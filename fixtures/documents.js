@@ -26,7 +26,8 @@ module.exports = [{
   ownerEmail: 'claire@example.com',
   title: 'Fixture document #4',
   abstract: 'Fixture document #4.',
-  path: 'fixture.txt',
+  original_filename: 'sample.txt',
+  path: 'userdata/documents/sample.txt',
   type: 'text/plain',
   published: true,
   removed: false

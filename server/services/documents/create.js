@@ -6,8 +6,8 @@ const Document = require('../../models').Document;
 const validate = require('./validate');
 
 const activityLogDescription = 'create document';
-const sql = `INSERT INTO documents (owner_id, title, abstract, path, type, published, removed)
-             VALUES ($1::integer, $2::varchar, $3::varchar, $4::varchar, $5::varchar, $6::boolean, $7::boolean)
+const sql = `INSERT INTO documents (owner_id, title, abstract, path, type, published, removed, original_filename)
+             VALUES ($1::integer, $2::varchar, $3::varchar, $4::varchar, $5::varchar, $6::boolean, $7::boolean, $8::varchar)
              RETURNING *;`;
 
 module.exports = (document) => {
@@ -27,7 +27,8 @@ module.exports = (document) => {
         document.path,
         document.type,
         document.published === true,
-        document.removed === true
+        document.removed === true,
+        document.original_filename || document.originalFilename
       ];
       return txn.query(sql, params);
     })
