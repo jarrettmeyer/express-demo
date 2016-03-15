@@ -3,5 +3,6 @@ module.exports = {
   findAll: require('./findAll'),
   findAllOwners: require('./findAllOwners'),
   findByEmail: require('./findByEmail'),
+  findOwnerById: require('./findOwnerById'),
   updateTokenIssuedAt: require('./updateTokenIssuedAt')
 };

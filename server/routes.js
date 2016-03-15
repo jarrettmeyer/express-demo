@@ -21,6 +21,7 @@ router.get('/api/documents/:id/file', authenticateWithToken, api.documents.getFi
 router.post('/api/documents/:id/file', authenticateWithToken, requireDocumentOwnership, upload.single('attachment'), api.documents.postFile);
 
 router.get('/api/owners', authenticateWithToken, api.owners.getAll);
+router.get('/api/owners/:id', authenticateWithToken, api.owners.getById);
 
 router.get('/api/users', authenticateWithToken, requireAdmin, api.users.getAll);
 

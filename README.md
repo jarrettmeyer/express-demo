@@ -56,7 +56,7 @@ POST body:
 
 response:
 {
-  token:"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3N1ZWQiOjE0NTc1Nzc4NTQwOTksImV4cGlyZXMiOjE0NTk5OTcwNTQwOTl9.dsjbWnQIxvkTFRoXN3pC8euW2HLoPVsHiUdI9Tgjp8s"
+  token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3N1ZWQiOjE0NTc1Nzc4NTQwOTksImV4cGlyZXMiOjE0NTk5OTcwNTQwOTl9.dsjbWnQIxvkTFRoXN3pC8euW2HLoPVsHiUdI9Tgjp8s"
 }
 ```
 
@@ -118,6 +118,40 @@ The the file attachment for a document.
 Attach a file to a document. A document can have exactly one file associated with it. A user can only attach a file if a user owns the document.
 
 #### GET /api/owners
+
+Get all owners. User must be authenticated.
+
+```
+response body:
+{
+  owners: [{
+    id: 2,
+    displayName: "Alice A",
+    email: "alice@example.com"
+  }, {
+    id: 4,
+    displayName: "Claire C",
+    email: "claire@example.com"
+  }, {
+    /* snip */
+  }]
+}
+```
+
+#### GET /api/owners/:id
+
+Get an owner by id. User must be authenticated.
+
+```
+response body:
+{
+  owner: {
+    id: 4,
+    displayName: "Claire C",
+    email: "claire@example.com"
+  }
+}
+```
 
 #### GET /api/users
 
