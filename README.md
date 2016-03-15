@@ -109,9 +109,15 @@ response body:
 
 Create a new document.
 
+#### GET /api/documents/:id/file
+
+The the file attachment for a document.
+
 #### POST /api/documents/:id/file
 
 Attach a file to a document. A document can have exactly one file associated with it. A user can only attach a file if a user owns the document.
+
+#### GET /api/owners
 
 #### GET /api/users
 

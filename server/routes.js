@@ -20,6 +20,8 @@ router.post('/api/documents', authenticateWithToken, api.documents.post);
 router.get('/api/documents/:id/file', authenticateWithToken, api.documents.getFile);
 router.post('/api/documents/:id/file', authenticateWithToken, requireDocumentOwnership, upload.single('attachment'), api.documents.postFile);
 
+router.get('/api/owners', authenticateWithToken, api.owners.getAll);
+
 router.get('/api/users', authenticateWithToken, requireAdmin, api.users.getAll);
 
 module.exports = router;
