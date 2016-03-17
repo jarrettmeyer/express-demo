@@ -115,7 +115,11 @@ The the file attachment for a document.
 
 #### POST /api/documents/:id/file
 
-Attach a file to a document. A document can have exactly one file associated with it. A user can only attach a file if a user owns the document.
+Attach a file to a document. A document can have exactly one file associated with it. A user can attach a file only if a user owns the document.
+
+#### PUT /api/documents/:id
+
+Update a document. User must be authenticated. A user can update a document only if the user owns the document.
 
 #### GET /api/owners
 
