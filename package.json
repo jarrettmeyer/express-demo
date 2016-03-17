@@ -5,7 +5,7 @@
   "scripts": {
     "build": "./scripts/build.sh",
     "smoke-tests": "./scripts/smoke-tests.sh",
-    "start": "DEBUG=server,sql ./scripts/start-server",
+    "start": "DEBUG=api,server,sql ./scripts/start-server",
     "test": "./scripts/test.sh"
   },
   "dependencies": {
