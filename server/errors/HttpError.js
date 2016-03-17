@@ -6,6 +6,11 @@ class HttpError extends Error {
     this.message = message;
     this.status = status;
     this.name = 'HttpError';
+    this.errors = [];
+  }
+
+  addError(err) {
+    this.errors.push(err);
   }
 }
 

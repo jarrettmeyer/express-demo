@@ -2,6 +2,10 @@
 
 const debug = require('debug')('server');
 const documents = require('../services/documents');
+const errors = require('../errors');
+
+const HttpForbidden = errors.HttpForbidden;
+const HttpNotFound = errors.HttpNotFound;
 
 module.exports = (request, response, next) => {
   let documentId = request.params.id;
@@ -10,12 +14,16 @@ module.exports = (request, response, next) => {
     .then(document => {
       if (!document) {
         debug(`Document does not exist. id = ${documentId}`);
-        return response.status(404).send('not found');
+        let notFound = new HttpNotFound();
+        notFound.addError(`Document ${documentId} could not be found.`);
+        return next(notFound);
       }
       if (document.ownerId === userId) {
         request.document = document;
         return next();
       }
-      return response.status(403).send('forbidden');
+      let forbidden = new HttpForbidden();
+      forbidden.addError(`Access to document ${documentId} is forbidden.`);
+      return next(forbidden);
     });
 }

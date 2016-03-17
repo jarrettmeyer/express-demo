@@ -12,20 +12,28 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(logRequests);
+app.use(logRequests());
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use(function(request, response, next) {
-  var err = new Error(`The requested page ${request.path} could not be found.`);
-  err.status = 404;
-  next(err);
+app.use((request, response, next) => {
+  var error = new Error(`The requested page ${request.path} could not be found.`);
+  error.status = 404;
+  debug(`Error: Not found`);
+  debug(`       ${error.message}`);
+  next(error);
 });
 
-app.use(function(err, req, res, next) {
-  var reply = _.cloneDeep(err);
-  delete reply.stacktrace;
-  res.status(err.status || 500).json({ error: reply });
+app.use((error, request, response, next) => {
+  let status = error.status || 500;
+  debug(`Error: ${error.name} (${status}) - ${error.message}`);
+  if (error.errors && error.errors.length) {
+    debug(`       ${error.errors}`);
+  }
+  return response.status(status).json({
+    error: error,
+    path: request.path
+  });
 });
 
 

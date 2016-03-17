@@ -17,6 +17,7 @@ router.post('/api/login', api.login);
 router.get('/api/documents', authenticateWithToken, api.documents.getAll);
 router.get('/api/documents/:id', authenticateWithToken, api.documents.getById);
 router.post('/api/documents', authenticateWithToken, api.documents.post);
+router.put('/api/documents/:id', authenticateWithToken, requireDocumentOwnership, api.documents.put);
 router.get('/api/documents/:id/file', authenticateWithToken, api.documents.getFile);
 router.post('/api/documents/:id/file', authenticateWithToken, requireDocumentOwnership, upload.single('attachment'), api.documents.postFile);
 

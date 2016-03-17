@@ -3,5 +3,6 @@ module.exports = {
   getById: require('./getById'),
   getFile: require('./getFile'),
   post: require('./post'),
-  postFile: require('./postFile')
+  postFile: require('./postFile'),
+  put: require('./put')
 };

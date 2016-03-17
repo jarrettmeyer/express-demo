@@ -23,7 +23,7 @@ module.exports = function (request, response, next) {
   }
   let decodedToken = decodeToken(token);
   if (Date.now() > decodedToken.expires) {
-    debug(`Unabled to use token. Token has expired.`);
+    debug(`Unable to use token. Token has expired.`);
     return next(unauthorized());
   }
   debug(`Decoded token: ${JSON.stringify(decodedToken)}`);
