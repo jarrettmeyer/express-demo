@@ -6,13 +6,26 @@ const _ = require('lodash');
 
 module.exports = (request, response) => {
   let updatedProperties = getBodyDocument(request);
-  let originalDocument = request.document;
   let doc = _.assign(request.document, updatedProperties);
   return documents.update(doc)
     .then(doc => {
       return response.status(200).json({ document: doc });
     });
 };
+
+function getActions(doc, updatedProperties) {
+  var actions = [];
+  if (isPublish(doc, updatedProperties)) {
+    actions.push('publish');
+  }
+  if (isUnpublish(doc, updatedProperties)) {
+    actions.push('unpublish');
+  }
+  if (isEdit(doc, updatedProperties)) {
+    actions.push('edit');
+  }
+  return actions;
+}
 
 function getBodyDocument(request) {
   // The following properties are allowed to be modified by a PUT request. Any
@@ -25,4 +38,21 @@ function getBodyDocument(request) {
     }
   });
   return doc;
+}
+
+function isEdit(doc, updatedProperties) {
+  return isPropertyChanged(doc, updatedProperties, 'abstract') ||
+    isPropertyChanged(doc, updatedProperties, 'title');
+}
+
+function isPropertyChanged(doc, updatedProperties, property) {
+  return updatedProperties[property] && doc[property] !== updatedProperties[property];
+}
+
+function isPublish(doc, updatedProperties) {
+  return updatedProperties.published === true && !doc.published;
+}
+
+function isUnpublish(doc, updatedProperties) {
+  return updatedProperties.published === false && doc.published;
 }

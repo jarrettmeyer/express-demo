@@ -4,4 +4,4 @@
 db-migrate up --env test
 NODE_ENV=test node scripts/purge-database
 NODE_ENV=test node scripts/insert-fixtures
-NODE_ENV=test DEBUG=api,server mocha "server/tests/**/*.js"
+NODE_ENV=test mocha "server/tests/**/*.js"
