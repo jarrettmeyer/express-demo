@@ -9,8 +9,8 @@ class HttpError extends Error {
     this.errors = [];
   }
 
-  addError(err) {
-    this.errors.push(err);
+  addError(msg) {
+    this.errors.push({ message: msg });
   }
 }
 

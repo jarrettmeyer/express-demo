@@ -1,12 +1,12 @@
 'use strict';
 
-var debug = require('debug')('api');
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const debug = require('debug')('api');
+const express = require('express');
 const logRequests = require('./utils/logRequests');
-var routes = require('./routes');
-var _ = require('lodash');
+const path = require('path');
+const routes = require('./routes');
+const _ = require('lodash');
 
 var app = express();
 
@@ -26,14 +26,21 @@ app.use((request, response, next) => {
 
 app.use((error, request, response, next) => {
   let status = error.status || 500;
-  debug(`Error: ${error.name} (${status}) - ${error.message}`);
-  if (error.errors && error.errors.length) {
-    debug(`       ${error.errors}`);
-  }
-  return response.status(status).json({
-    error: error,
+  let responseObject = {
+    message: error.message,
+    name: error.name,
     path: request.path
-  });
+  };
+  if (error.name === 'ValidationError') {
+    status = 400;
+    responseObject.message = 'The data submitted was not valid.';
+    responseObject.errors = error.errors;
+  }
+  debug(`Error: ${error.name} (${status}) - ${error.message}`);
+  if (error.errors && error.errors.length > 0) {
+    debug(`      ${JSON.stringify(error.errors)}`);
+  }
+  return response.status(status).json(responseObject);
 });
 
 

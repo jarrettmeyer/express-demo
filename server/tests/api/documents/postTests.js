@@ -34,6 +34,19 @@ describe('POST /api/documents', () => {
       });
   });
 
+  it('returns 400 when the document does not have a title', () => {
+    postData.document.title = null;
+    return request()
+      .post(url)
+      .set('Authorization', validToken)
+      .send(postData)
+      .expect(400)
+      .then(response => {
+        expect(response.body.message).to.equal('The data submitted was not valid.');
+        expect(response.body.errors[0].message).to.equal('title is required.');
+      });
+  });
+
   it('returns 401 when user is not authenticated', () => {
     return testUnauthorizedRequest(request, 'post', url);
   });

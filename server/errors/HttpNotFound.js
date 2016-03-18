@@ -6,7 +6,9 @@ class HttpNotFound extends HttpError {
   constructor(msg) {
     super(404, 'Not found');
     this.name = 'HttpNotFound';
-    this.errors = [msg];
+    if (msg) {
+      this.errors = [{ message: msg }];
+    }
   }
 }
 

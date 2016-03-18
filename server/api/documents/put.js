@@ -9,7 +9,7 @@ module.exports = (request, response) => {
   let doc = _.assign(request.document, updatedProperties);
   return documents.update(doc)
     .then(doc => {
-      return response.status(200).json({ document: doc });
+      return response.status(200).json({ document: doc.toJSON() });
     });
 };
 

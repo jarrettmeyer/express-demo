@@ -2,8 +2,9 @@
 
 const debug = require('debug')('server');
 const documents = require('../../services').documents;
+const ValidationError = require('../../errors').ValidationError;
 
-module.exports = (request, response) => {
+module.exports = (request, response, next) => {
   let documentData = request.body.document;
   if (!documentData) {
     return response.status(400).json('bad request');
@@ -16,5 +17,6 @@ module.exports = (request, response) => {
       return response.status(201)
         .set('location', `/api/documents/${document.id}`)
         .json({ document: document.toJSON() });
-    });
+    })
+    .catch(ValidationError, next);
 };
