@@ -28,10 +28,19 @@ module.exports = {
 
 };
 
+
+function checkMinValueProperty(value, key, rules) {
+  if (rules.minValue && hasValue(value) && value < rules.minValue) {
+    return createPropertyError(value, key, rules, `cannot be less than ${rules.minValue}`);
+  }
+}
+
+
 function checkProperty(value, key, rules) {
   let propertyErrors = [];
   propertyErrors.push(checkRequiredProperty(value, key, rules));
   propertyErrors.push(checkTypeofProperty(value, key, rules));
+  propertyErrors.push(checkMinValueProperty(value, key, rules));
   return propertyErrors;
 }
 

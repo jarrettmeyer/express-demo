@@ -1,6 +1,9 @@
-const Promise = require('bluebird');
+'use strict';
 
-const validators = {
+const Promise = require('bluebird');
+const validation = require('../validation');
+
+const rules = {
   ownerId: {
     required: true,
     minValue: 1
@@ -15,5 +18,5 @@ const validators = {
 }
 
 module.exports = (document) => {
-  return Promise.resolve(document);
+  return validation.validate(document, rules);
 };
