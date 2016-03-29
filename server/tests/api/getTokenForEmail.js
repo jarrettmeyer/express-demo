@@ -15,7 +15,7 @@ module.exports = (email, options) => {
   }
   let user = _.find(users, { email: email });
   if (!user) {
-    throw new Error(`No user could be found with email ${email}.`)
+    throw new Error(`No user could be found with email ${email}.`);
   }
   if (!user.tokenIssuedAt) {
     throw new Error(`Cannot create token for user ${email}. Fixture does not have a value for tokenIssuedAt.`);

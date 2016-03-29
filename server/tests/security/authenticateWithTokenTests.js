@@ -1,3 +1,7 @@
+/* jshint expr: true */
+/* global -Promise */
+'use strict';
+
 const argv = require('../../utils/argv');
 const authenticateWithToken = require('../../security/authenticateWithToken');
 const expect = require('chai').expect;
@@ -6,11 +10,11 @@ const Promise = require('bluebird');
 
 describe('security/authenticateWithToken()', () => {
 
-  var email = null;
-  var isNextCalled = false;
-  var nextArgs = null;
-  var request = null;
-  var response = null;
+  let email = null;
+  let isNextCalled = false;
+  let nextArgs = null;
+  let request = null;
+  let response = null;
 
   beforeEach(() => {
     email = 'dorothy@example.com';
@@ -20,7 +24,7 @@ describe('security/authenticateWithToken()', () => {
       headers: {
         authorization: null
       }
-    }
+    };
   });
 
   it('fails when token is expired', () => {
@@ -33,7 +37,7 @@ describe('security/authenticateWithToken()', () => {
   });
 
   it('fails when token is not the expected format', () => {
-    var token = getTokenForEmail(email);
+    let token = getTokenForEmail(email);
     request.headers.authorization = token.split(' ')[1];
     return authenticateWithToken(request, response, next)
       .then(() => {

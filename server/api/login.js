@@ -5,6 +5,7 @@ const errors = require('../errors');
 const services = require('../services');
 
 const HttpBadRequest = errors.HttpBadRequest;
+const HttpError = errors.HttpError;
 
 module.exports = function (req, res, next) {
   let credentials = req.body;
@@ -21,18 +22,18 @@ module.exports = function (req, res, next) {
   let user = null;
   debug(`Authenticating user: ${credentials.email}.`);
   return services.authentication.checkCredentials(credentials)
-    .then((_user) => {
+    .then(_user => {
       user = _user;
       return services.authentication.createToken(user.email, { now: now });
     })
-    .then((_token) => {
+    .then(_token => {
       token = _token;
       return services.users.updateTokenIssuedAt(user.id, now);
     })
     .then(() => {
       return res.status(200).json({ token: token });
     })
-    .catch(errors.InvalidCredentials, (error) => {
-      return res.status(401).json(error.message);
+    .catch(errors.InvalidCredentials, error => {
+      return next(new HttpError(401, error.message));
     });
 };

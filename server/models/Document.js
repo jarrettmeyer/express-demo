@@ -27,7 +27,7 @@ class Document {
       abstract: this.abstract,
       type: this.type,
       published: this.published
-    }
+    };
   }
 }
 

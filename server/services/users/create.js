@@ -7,7 +7,7 @@ const validate = require('./validate');
 
 const sql = `INSERT INTO users (email, hashed_password, admin, removed, display_name, token_issued_at)
              VALUES ($1::varchar, $2::varchar, $3::boolean, $4::boolean, $5::varchar, $6::timestamp)
-             RETURNING *;`
+             RETURNING *;`;
 
 module.exports = (user) => {
   user.hashedPassword = hashPassword(user.clearPassword);
@@ -20,4 +20,4 @@ module.exports = (user) => {
     .then(function (result) {
       return new User(result.rows[0]);
     });
-}
+};

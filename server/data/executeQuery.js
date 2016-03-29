@@ -1,3 +1,4 @@
+/* global -Promise */
 'use strict';
 
 const createTransaction = require('./createTransaction');
@@ -12,7 +13,7 @@ module.exports = (sql, sqlParams, options) => {
   let client = options && options.client;
   return createTransaction(client)
     .then(txn => {
-      txn.begin()
+      txn.begin();
       txn.query(sql, sqlParams);
       return txn.commit();
     })

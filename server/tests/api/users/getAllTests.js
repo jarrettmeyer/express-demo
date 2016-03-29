@@ -8,7 +8,7 @@ const testForbiddenRequest = require('../testForbiddenRequest');
 
 describe('GET /api/users', () => {
 
-  var validToken;
+  let validToken;
 
   beforeEach(() => {
     validToken = getTokenForEmail('admin@example.com');
@@ -19,8 +19,8 @@ describe('GET /api/users', () => {
       .get('/api/users')
       .set('Authorization', validToken)
       .then(response => {
-        var users = response.body.users;
-        var count = users.filter(user => {
+        let users = response.body.users;
+        let count = users.filter(user => {
           return !!(user.hashedPassword);
         }).length;
         expect(count).to.equal(0);

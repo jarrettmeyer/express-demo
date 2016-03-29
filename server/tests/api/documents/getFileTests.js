@@ -1,3 +1,5 @@
+'use strict';
+
 const documents = require('../../../services/documents');
 const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
@@ -5,7 +7,7 @@ const request = require('../setupRequest');
 
 describe('GET /api/documents/:id/file', () => {
 
-  var docId, docs;
+  let docId, docs;
 
   beforeEach(() => {
     return documents.findAll({ ownerId: -1 })

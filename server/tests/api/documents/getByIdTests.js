@@ -1,3 +1,4 @@
+/* jshint expr: true */
 'use strict';
 
 const expect = require('chai').expect;
@@ -7,7 +8,7 @@ const _ = require('lodash');
 
 describe('GET /api/documents/:id', () => {
 
-  var document, email, token, url;
+  let document, email, token, url;
 
   beforeEach(() => {
     email = 'alice@example.com';
@@ -31,7 +32,7 @@ describe('GET /api/documents/:id', () => {
       .set('Authorization', token)
       .expect(200)
       .then(response => {
-        var doc = response.body.document;
+        let doc = response.body.document;
         expect(doc).to.exist;
         expect(doc.id).to.be.greaterThan(0);
       });
@@ -75,13 +76,13 @@ describe('GET /api/documents/:id', () => {
 
   function createDocument(opts) {
     opts = opts || {};
-    var defaults = {
+    let defaults = {
       title: `Get document test ${Date.now()}`,
       abstract: `This is a sample document. It was created to test /api/documents/:id`,
       published: true,
       removed: false
-    }
-    var postBody = {
+    };
+    let postBody = {
       document: _.defaults(opts, defaults)
     };
     return request()

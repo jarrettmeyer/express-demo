@@ -4,9 +4,9 @@ const executeQuery = require('../../data/executeQuery');
 const User = require('../../models').User;
 
 const sql = `UPDATE users
-             SET token_issued_at = $1::timestamp
-             WHERE id = $2::integer AND removed = false
-             RETURNING *;`
+    SET token_issued_at = $1::timestamp
+    WHERE id = $2::integer AND removed = false
+    RETURNING *;`;
 
 module.exports = (userId, tokenIssuedAt) => {
   userId = userId.id || userId;

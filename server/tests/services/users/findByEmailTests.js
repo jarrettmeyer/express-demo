@@ -16,6 +16,6 @@ describe('users/findByEmail', () => {
       .then(function (result) {
         expect(result).to.equal(null);
       });
-  })
+  });
 
 });

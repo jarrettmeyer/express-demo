@@ -7,7 +7,7 @@ const testUnauthorizedRequest = require('../testUnauthorizedRequest');
 
 describe('GET /api/users', () => {
 
-  var validToken;
+  let validToken;
 
   beforeEach(() => {
     validToken = getTokenForEmail('admin@example.com');

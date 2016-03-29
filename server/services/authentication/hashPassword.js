@@ -6,7 +6,7 @@ module.exports = function (clearPassword, options) {
   const salt = bcrypt.genSaltSync(options.complexity);
   const hashedPassword = bcrypt.hashSync(clearPassword, salt);
   return hashedPassword;
-}
+};
 
 const defaults = {
   complexity: 10

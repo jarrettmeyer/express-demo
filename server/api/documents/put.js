@@ -14,7 +14,7 @@ module.exports = (request, response) => {
 };
 
 function getActions(doc, updatedProperties) {
-  var actions = [];
+  let actions = [];
   if (isPublish(doc, updatedProperties)) {
     actions.push('publish');
   }

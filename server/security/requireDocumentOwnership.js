@@ -26,4 +26,4 @@ module.exports = (request, response, next) => {
       forbidden.addError(`Access to document ${documentId} is forbidden.`);
       return next(forbidden);
     });
-}
+};

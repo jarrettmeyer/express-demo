@@ -1,3 +1,6 @@
+/* jshint expr: true */
+'use strict';
+
 const assert = require('chai').assert;
 const debug = require('debug')('test');
 const expect = require('chai').expect;
@@ -8,7 +11,7 @@ const testUnauthorizedRequest = require('../testUnauthorizedRequest');
 
 describe('PUT /api/documents/:id', () => {
 
-  var document, email, token, url;
+  let document, email, token, url;
 
   beforeEach(() => {
     email = 'alice@example.com';
@@ -22,7 +25,7 @@ describe('PUT /api/documents/:id', () => {
   });
 
   it('fails (403) if the document owner is not the current user', () => {
-    var altToken = getTokenForEmail('claire@example.com');
+    let altToken = getTokenForEmail('claire@example.com');
     return request()
       .put(url)
       .set('Authorization', altToken)
@@ -46,25 +49,25 @@ describe('PUT /api/documents/:id', () => {
   });
 
   it('returns a document object', () => {
-    var newTitle = `Hello World ${Date.now()}`;
+    let newTitle = `Hello World ${Date.now()}`;
     return request()
       .put(url)
       .set('Authorization', token)
       .send({ document: { title: newTitle } })
       .then(response => {
         expect(response.body.document).to.exist;
-        var doc = response.body.document;
+        let doc = response.body.document;
         expect(doc.title).to.equal(newTitle);
       });
   });
 
   function createDocument() {
-    var postData = {
+    let postData = {
       document: {
         title: `test document ${Date.now()}`,
         abstract: `This is a test for updating a document.`
       }
-    }
+    };
     return request()
       .post('/api/documents')
       .set('Authorization', token)

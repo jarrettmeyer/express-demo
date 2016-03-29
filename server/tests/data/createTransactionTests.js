@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('chai').assert;
 const data = require('../../data');
 const expect = require('chai').expect;
@@ -22,9 +24,9 @@ describe('data/createTransaction', () => {
   });
 
   it('can perform a more complex series of actions', () => {
-    var answer = 0;
-    var client = null;
-    var tableName = 'temp_table_' + Date.now().toString();
+    let answer = 0;
+    let client = null;
+    let tableName = 'temp_table_' + Date.now().toString();
     return createClient()
       .then(_client => {
         client = _client;
@@ -34,18 +36,18 @@ describe('data/createTransaction', () => {
         txn.begin();
         txn.query(`CREATE TEMP TABLE ${tableName} (time timestamptz);`);
         txn.commit();
-        txn.begin()
+        txn.begin();
         txn.query(`INSERT INTO ${tableName} (time) VALUES ( NOW() );`);
         txn.query(`INSERT INTO ${tableName} (time) VALUES ( NOW() );`);
         txn.query(`INSERT INTO ${tableName} (time) VALUES ( NOW() );`);
         txn.commit();
         txn.begin();
-        txn.query(`SELECT * FROM ${tableName};`)
+        txn.query(`SELECT * FROM ${tableName};`);
         return txn.commit();
       })
       .then(results => {
         expect(results.length).to.equal(11);
-        var count = results[9].rows.length;
+        let count = results[9].rows.length;
         expect(count).to.equal(3);
       })
       .then(() => {

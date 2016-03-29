@@ -16,7 +16,7 @@ module.exports = (request, response) => {
       responseDocument = updateDocumentResult;
       return response.status(200).json({ document: responseDocument.toJSON() });
     });
-}
+};
 
 function getDocumentData(document, fileData, saveFileResult) {
   return _.assign(document, {

@@ -18,4 +18,4 @@ module.exports = function (credentials) {
       }
       return user;
     });
-}
+};

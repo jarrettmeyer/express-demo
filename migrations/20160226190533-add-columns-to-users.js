@@ -2,9 +2,7 @@
 
 const async = require('async');
 
-var dbm;
-var type;
-var seed;
+let dbm, seed, type;
 
 exports.setup = function(options, seedLink) {
   dbm = options.dbmigrate;

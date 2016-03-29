@@ -1,3 +1,4 @@
+/* global -Promise */
 'use strict';
 
 const createClient = require('./createClient');
@@ -23,19 +24,22 @@ module.exports = (client) => {
     });
 };
 
-function beginTransaction() {
-  return this.query('BEGIN');
+function beginTransaction(txn) {
+  return () => {
+    return txn.query('BEGIN');
+  };
 }
 
-function commitTransaction() {
-  let self = this;
-  return this.query('COMMIT')
-    .then(result => {
-      if (self._managed) {
-        self._client.end();
-      }
-      return result;
-    });
+function commitTransaction(txn) {
+  return () => {
+    return txn.query('COMMIT')
+      .then(result => {
+        if (txn._managed) {
+          txn._client.end();
+        }
+        return result;
+      });
+  };
 }
 
 function logSql(sql, params) {
@@ -46,39 +50,42 @@ function logSql(sql, params) {
 }
 
 function newTransaction(client, opts) {
-  return Promise.resolve({
+  let txn = {
     _client: client,
     _managed: opts.managed,
-    begin: beginTransaction,
-    commit: commitTransaction,
-    query: queryTransaction,
-    results: [],
-    rollback: rollbackTransaction
-  });
+    results: []
+  };
+  txn.begin = beginTransaction(txn);
+  txn.commit = commitTransaction(txn);
+  txn.query = queryTransaction(txn);
+  txn.rollback = rollbackTransaction(txn);
+  return Promise.resolve(txn);
 }
 
-function queryTransaction(sql, params) {
-  logSql(sql, params);
-  let _this = this;
-  return new Promise((resolve, reject) => {
-    let onQuery = (err, res) => {
-      if (err) {
-        return reject(err);
-      }
-      _this.results.push(res);
-      resolve(_this.results);
-    };
-    _this._client.query.apply(_this._client, [sql, params || [], onQuery]);
-  });
-}
-
-function rollbackTransaction() {
-  let _this = this;
-  return _this.query('ROLLBACK')
-    .then(result => {
-      if (_this.managed) {
-        _this._client.end();
-      }
-      return result;
+function queryTransaction(txn) {
+  return (sql, params) => {
+    logSql(sql, params);
+    return new Promise((resolve, reject) => {
+      let onQuery = (err, res) => {
+        if (err) {
+          return reject(err);
+        }
+        txn.results.push(res);
+        resolve(txn.results);
+      };
+      txn._client.query.apply(txn._client, [sql, params || [], onQuery]);
     });
+  };
+}
+
+function rollbackTransaction(txn) {
+  return () => {
+    return txn.query('ROLLBACK')
+      .then(result => {
+        if (txn.managed) {
+          txn._client.end();
+        }
+        return result;
+      });
+  };
 }

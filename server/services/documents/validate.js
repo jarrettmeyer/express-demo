@@ -1,3 +1,4 @@
+/* globals -Promise */
 'use strict';
 
 const Promise = require('bluebird');
@@ -15,7 +16,7 @@ const rules = {
   abstract: {
     typeof: 'string'
   }
-}
+};
 
 module.exports = (document) => {
   return validation.validate(document, rules);

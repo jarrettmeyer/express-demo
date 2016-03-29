@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 const dbConfig = require('../../database.json');
 
 module.exports = function () {
@@ -10,7 +10,7 @@ module.exports = function () {
   let nodeEnv = getNodeEnvFromEnvironment();
   connString = buildConnectionString(nodeEnv);
   return connString;
-}
+};
 
 function buildConnectionString(nodeEnv) {
   const config = dbConfig[nodeEnv];
@@ -22,11 +22,11 @@ function buildConnectionString(nodeEnv) {
  * Get the connection string from the system environment variable.
  */
 function getConnectionStringFromEnvironment() {
-  return process.env['CONNECTION_STRING'];
+  return process.env.CONNECTION_STRING;
 }
 
 function getNodeEnvFromEnvironment() {
-  let nodeEnv = process.env['NODE_ENV'];
+  let nodeEnv = process.env.NODE_ENV;
   if (!nodeEnv) {
     nodeEnv = 'development';
   }

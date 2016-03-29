@@ -1,3 +1,4 @@
+/* globals -Promise */
 'use strict';
 
 const getConnectionString = require('./getConnectionString');

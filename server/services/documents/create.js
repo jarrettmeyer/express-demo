@@ -49,5 +49,5 @@ function createActivityLogData(row) {
     refId: row.id,
     description: activityLogDescription,
     userId: row.owner_id
-  }
+  };
 }

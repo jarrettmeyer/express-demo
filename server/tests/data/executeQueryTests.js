@@ -1,3 +1,5 @@
+'use strict';
+
 const data = require('../../data');
 const expect = require('chai').expect;
 
@@ -16,16 +18,16 @@ describe('data/executeQuery()', () => {
   it('can return a parameterized query', () => {
     return executeQuery('SELECT $1::int as number', [123])
       .then(function (result) {
-        var number = result.rows[0].number;
+        let number = result.rows[0].number;
         expect(number).to.equal(123);
       });
   });
 
   it('can return a simple result', () => {
-    var start = Date.now();
+    let start = Date.now();
     return executeQuery('SELECT NOW() AS time')
       .then(function (result) {
-        var timestamp = (new Date(result.rows[0].time)).getTime();
+        let timestamp = (new Date(result.rows[0].time)).getTime();
         expect(timestamp).to.be.closeTo(start, 100);
       });
   });

@@ -1,3 +1,6 @@
+/* jshint expr: true */
+'use strict';
+
 const assert = require('chai').assert;
 const debug = require('debug')('test');
 const expect = require('chai').expect;
@@ -9,7 +12,7 @@ const testUnauthorizedRequest = require('../testUnauthorizedRequest');
 
 describe('POST /api/documents/:id/file', () => {
 
-  var document, email, token, url;
+  let document, email, token, url;
 
   beforeEach(() => {
     email = 'alice@example.com';
@@ -23,7 +26,7 @@ describe('POST /api/documents/:id/file', () => {
   });
 
   it('fails (403) if the document owner is not the current user', () => {
-    var altToken = getTokenForEmail('claire@example.com');
+    let altToken = getTokenForEmail('claire@example.com');
     return request()
       .post(url)
       .set('Authorization', altToken)
@@ -53,7 +56,7 @@ describe('POST /api/documents/:id/file', () => {
       .attach('attachment', 'userdata/documents/sample.pdf')
       .then(response => {
         expect(response.body.document).to.exist;
-        var doc = response.body.document;
+        let doc = response.body.document;
         expect(doc.type).to.equal('application/pdf');
         expect(doc.path).to.equal(undefined, 'Document should not have a path property');
       });
@@ -65,22 +68,22 @@ describe('POST /api/documents/:id/file', () => {
       .set('Authorization', token)
       .attach('attachment', 'userdata/documents/sample.txt')
       .then(response => {
-        var docId = response.body.document.id;
+        let docId = response.body.document.id;
         return findById(docId);
       })
       .then(doc => {
-        var error = fs.accessSync(doc.path);
+        let error = fs.accessSync(doc.path);
         expect(error).to.equal(undefined);
       });
   });
 
   function createDocument() {
-    var postData = {
+    let postData = {
       document: {
         title: `test document ${Date.now()}`,
         abstract: `This is a test for attaching a file to a document.`
       }
-    }
+    };
     return request()
       .post('/api/documents')
       .set('Authorization', token)

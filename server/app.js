@@ -8,7 +8,7 @@ const path = require('path');
 const routes = require('./routes');
 const _ = require('lodash');
 
-var app = express();
+let app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +17,7 @@ app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use((request, response, next) => {
-  var error = new Error(`The requested page ${request.path} could not be found.`);
+  let error = new Error(`The requested page ${request.path} could not be found.`);
   error.status = 404;
   debug(`Error: Not found`);
   debug(`       ${error.message}`);

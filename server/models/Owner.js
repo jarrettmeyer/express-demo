@@ -8,7 +8,7 @@ class Owner {
   }
 
   toString() {
-    return `Owner ${this.id}, ${this.displayName} (${this.email})`
+    return `Owner ${this.id}, ${this.displayName} (${this.email})`;
   }
 }
 

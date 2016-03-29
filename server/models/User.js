@@ -22,7 +22,7 @@ class User {
       removed: this.removed,
       tokenIssuedAt: this.tokenIssuedAt,
       createdAt: this.createdAt
-    }
+    };
   }
 }
 

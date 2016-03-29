@@ -1,3 +1,4 @@
+/* jshint expr: true */
 'use strict';
 
 const expect = require('chai').expect;
@@ -9,7 +10,7 @@ const url = '/api/documents';
 
 describe('POST /api/documents', () => {
 
-  var postData, title, validToken;
+  let postData, title, validToken;
 
   beforeEach(() => {
     title = `test document ${Date.now()}`;
@@ -29,7 +30,7 @@ describe('POST /api/documents', () => {
       .send(postData)
       .expect(201)
       .then(response => {
-        var location = response.headers['location'];
+        let location = response.headers.location;
         expect(location).to.match(/\/api\/documents\/\d+/);
       });
   });

@@ -1,7 +1,9 @@
-var assert = require('chai').assert;
-var expect = require('chai').expect;
-var ValidationError = require('../../../errors/ValidationError');
-var validation = require('../../../services/validation');
+'use strict';
+
+const assert = require('chai').assert;
+const expect = require('chai').expect;
+const ValidationError = require('../../../errors/ValidationError');
+const validation = require('../../../services/validation');
 
 describe('validation', () => {
 
@@ -9,10 +11,10 @@ describe('validation', () => {
   describe('propertyName', () => {
 
     it('can be customized', () => {
-      var model = {
+      let model = {
         name: null
       };
-      var rules = {
+      let rules = {
         name: {
           required: true,
           propertyName: 'My First Name'
@@ -31,8 +33,8 @@ describe('validation', () => {
   describe('required', () => {
 
     it('can require a property', () => {
-      var obj = { name: null };
-      var rules = { name: { required: true } };
+      let obj = { name: null };
+      let rules = { name: { required: true } };
       return validation.validate(obj, rules)
         .then(assert.fail)
         .catch(ValidationError, error => {
@@ -41,8 +43,8 @@ describe('validation', () => {
     });
 
     it('returns no errors when model is valid', () => {
-      var obj = { name: 'John Doe' };
-      var rules = { name: { required: true } };
+      let obj = { name: 'John Doe' };
+      let rules = { name: { required: true } };
       return validation.validate(obj, rules)
         .catch(assert.fail);
     });
@@ -53,8 +55,8 @@ describe('validation', () => {
   describe('typeof', () => {
 
     it('can test that a property matches typeof', () => {
-      var obj = { name: 12345 };
-      var rules = { name: { typeof: 'string' } };
+      let obj = { name: 12345 };
+      let rules = { name: { typeof: 'string' } };
       return validation.validate(obj, rules)
         .then(assert.fail)
         .catch(ValidationError, error => {
@@ -63,8 +65,8 @@ describe('validation', () => {
     });
 
     it('returns no errors when model is valid', () => {
-      var obj = { name: 'John Doe' };
-      var rules = { name: { typeof: 'string' } };
+      let obj = { name: 'John Doe' };
+      let rules = { name: { typeof: 'string' } };
       return validation.validate(obj, rules)
         .catch(assert.fail);
     });

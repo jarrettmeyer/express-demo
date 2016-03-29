@@ -29,7 +29,7 @@ module.exports = (request, response, next) => {
             'Content-Disposition': `attachment; filename=${doc.originalFilename}`,
             'Content-Type': doc.type
           }
-        }
+        };
         return response.sendFile(doc.path, opts);
       }
       throw new HttpNotFound();

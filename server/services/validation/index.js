@@ -1,3 +1,4 @@
+/* global -Promise */
 'use strict';
 
 const Promise = require('bluebird');

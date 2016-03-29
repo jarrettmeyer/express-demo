@@ -1,3 +1,4 @@
+/* globals -Promise */
 const Promise = require('bluebird');
 
 module.exports = (user) => {

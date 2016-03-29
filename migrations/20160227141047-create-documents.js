@@ -1,8 +1,8 @@
 'use strict';
 
-var dbm;
-var type;
-var seed;
+let dbm;
+let type;
+let seed;
 
 exports.setup = function(options, seedLink) {
   dbm = options.dbmigrate;

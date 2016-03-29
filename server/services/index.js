@@ -3,4 +3,4 @@ module.exports = {
   authentication: require('./authentication'),
   documents: require('./documents'),
   users: require('./users')
-}
+};

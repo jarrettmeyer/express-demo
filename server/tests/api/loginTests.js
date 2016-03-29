@@ -1,3 +1,5 @@
+/* jshint expr: true */
+
 const expect = require('chai').expect;
 const request = require('./setupRequest');
 const users = require('../../services/users');

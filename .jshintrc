@@ -1,0 +1,8 @@
+{
+  "bitwise": true,
+  "esversion": 6,
+  "freeze": true,
+  "mocha": true,
+  "node": true,
+  "varstmt": true
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 const assert = require('chai').assert;
 const expect = require('chai').expect;
 const validate = require('../../../services/documents/validate');
@@ -7,7 +9,7 @@ describe('services/documents/validate', () => {
 
 
   it('abstact: must be a string', () => {
-    var document = createValidDocument();
+    let document = createValidDocument();
     document.abstract = 9999;
     return validate(document)
       .then(assert.fail)
@@ -18,13 +20,13 @@ describe('services/documents/validate', () => {
 
 
   it('allows a valid document', () => {
-    var document = createValidDocument();
+    let document = createValidDocument();
     return validate(document);
   });
 
 
   it('ownerId: required', () => {
-    var document = createValidDocument();
+    let document = createValidDocument();
     document.ownerId = null;
     return validate(document)
       .then(assert.fail)
@@ -35,7 +37,7 @@ describe('services/documents/validate', () => {
 
 
   it('ownerId: must be greater than 0', () => {
-    var document = createValidDocument();
+    let document = createValidDocument();
     document.ownerId = 0;
     return validate(document)
       .then(assert.fail)
@@ -46,7 +48,7 @@ describe('services/documents/validate', () => {
 
 
   it('title: required', () => {
-    var document = createValidDocument();
+    let document = createValidDocument();
     document.title = null;
     return validate(document)
       .then(assert.fail)
@@ -57,7 +59,7 @@ describe('services/documents/validate', () => {
 
 
   it('title: must be a string', () => {
-    var document = createValidDocument();
+    let document = createValidDocument();
     document.title = 11111;
     return validate(document)
       .then(assert.fail)

@@ -1,14 +1,16 @@
+'use strict';
+
 const expect = require('chai').expect;
 const request = require('./setupRequest');
 
 describe('GET /api/status', () => {
 
   it('returns a timestamp', () => {
-    var start = Date.now();
+    let start = Date.now();
     return request()
       .get('/api/status')
       .then(function (response) {
-        var body = response.body;
+        let body = response.body;
         expect(body.timestamp).to.be.closeTo(start, 100);
       });
   });

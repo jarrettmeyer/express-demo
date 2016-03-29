@@ -1,3 +1,6 @@
+/* jshint expr: true */
+'use strict';
+
 const assert = require('chai').assert;
 const expect = require('chai').expect;
 const users = require('../../../services/users');
@@ -7,7 +10,7 @@ const updateTokenIssuedAt = users.updateTokenIssuedAt;
 
 describe('users/updateTokenIssuedAt', () => {
 
-  var alice = null, betty = null, issuedAt = null;
+  let alice = null, betty = null, issuedAt = null;
 
   beforeEach(() => {
     issuedAt = new Date();
@@ -19,7 +22,7 @@ describe('users/updateTokenIssuedAt', () => {
       .then(user => {
         betty = user;
       });
-  })
+  });
 
   it('fails when the user has been removed', () => {
     return updateTokenIssuedAt(betty.id, issuedAt)
