@@ -6,13 +6,18 @@ const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
 const testUnauthorizedRequest = require('../testUnauthorizedRequest');
 const users = require('../../../services/users');
-const _ = require('lodash');
 
 const url = '/api/documents';
 
 describe('GET /api/documents', () => {
 
   let currentUser, validToken;
+
+  function sendRequest() {
+    return request()
+      .get(url)
+      .set('Authorization', validToken);
+  }
 
   beforeEach(() => {
     let email = 'alice@example.com';
@@ -95,10 +100,5 @@ describe('GET /api/documents', () => {
       });
   });
 
-  function sendRequest() {
-    return request()
-      .get(url)
-      .set('Authorization', validToken);
-  }
 
 });

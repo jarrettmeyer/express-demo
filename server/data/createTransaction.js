@@ -5,30 +5,13 @@ const createClient = require('./createClient');
 const debug = require('debug')('sql');
 const Promise = require('bluebird');
 
-/**
- * Creates a new transaction object.
- *
- * Takes an optional `pg.Client` instance argument. If a client argument is given
- * it is assumed that the caller will call `client.end()` to release the connection
- * to the server.
- *
- * @param {pg.Client} client - A pg.Client instance.
- */
-module.exports = (client) => {
-  if (client) {
-    return newTransaction(client, { managed: false });
-  }
-  return createClient()
-    .then(client => {
-      return newTransaction(client, { managed: true });
-    });
-};
 
 function beginTransaction(txn) {
   return () => {
     return txn.query('BEGIN');
   };
 }
+
 
 function commitTransaction(txn) {
   return () => {
@@ -42,6 +25,7 @@ function commitTransaction(txn) {
   };
 }
 
+
 function logSql(sql, params) {
   debug(sql);
   if (params) {
@@ -49,18 +33,6 @@ function logSql(sql, params) {
   }
 }
 
-function newTransaction(client, opts) {
-  let txn = {
-    _client: client,
-    _managed: opts.managed,
-    results: []
-  };
-  txn.begin = beginTransaction(txn);
-  txn.commit = commitTransaction(txn);
-  txn.query = queryTransaction(txn);
-  txn.rollback = rollbackTransaction(txn);
-  return Promise.resolve(txn);
-}
 
 function queryTransaction(txn) {
   return (sql, params) => {
@@ -78,6 +50,7 @@ function queryTransaction(txn) {
   };
 }
 
+
 function rollbackTransaction(txn) {
   return () => {
     return txn.query('ROLLBACK')
@@ -89,3 +62,40 @@ function rollbackTransaction(txn) {
       });
   };
 }
+
+
+function newTransaction(client, opts) {
+  let txn = {
+    _client: client,
+    _managed: opts.managed,
+    results: []
+  };
+  txn.begin = beginTransaction(txn);
+  txn.commit = commitTransaction(txn);
+  txn.query = queryTransaction(txn);
+  txn.rollback = rollbackTransaction(txn);
+  return Promise.resolve(txn);
+}
+
+
+/**
+ * Creates a new transaction object.
+ *
+ * Takes an optional `pg.Client` instance argument. If a client argument is given
+ * it is assumed that the caller will call `client.end()` to release the connection
+ * to the server.
+ *
+ * @param {pg.Client} client - A pg.Client instance.
+ */
+function createTransaction(client) {
+  if (client) {
+    return newTransaction(client, { managed: false });
+  }
+  return createClient()
+    .then(client => {
+      return newTransaction(client, { managed: true });
+    });
+}
+
+
+module.exports = createTransaction;

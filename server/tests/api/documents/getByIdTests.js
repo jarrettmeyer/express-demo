@@ -10,6 +10,30 @@ describe('GET /api/documents/:id', () => {
 
   let document, email, token, url;
 
+  function createDocument(opts) {
+    opts = opts || {};
+    let defaults = {
+      title: `Get document test ${Date.now()}`,
+      abstract: `This is a sample document. It was created to test /api/documents/:id`,
+      published: true,
+      removed: false
+    };
+    let postBody = {
+      document: _.defaults(opts, defaults)
+    };
+    return request()
+      .post('/api/documents')
+      .set('Authorization', token)
+      .send(postBody)
+      .expect(201)
+      .then(response => {
+        document = response.body.document;
+        url = `/api/documents/${document.id}`;
+        expect(document.id).to.be.greaterThan(0);
+        return document;
+      });
+  }
+
   beforeEach(() => {
     email = 'alice@example.com';
     token = getTokenForEmail(email);
@@ -74,28 +98,5 @@ describe('GET /api/documents/:id', () => {
       });
   });
 
-  function createDocument(opts) {
-    opts = opts || {};
-    let defaults = {
-      title: `Get document test ${Date.now()}`,
-      abstract: `This is a sample document. It was created to test /api/documents/:id`,
-      published: true,
-      removed: false
-    };
-    let postBody = {
-      document: _.defaults(opts, defaults)
-    };
-    return request()
-      .post('/api/documents')
-      .set('Authorization', token)
-      .send(postBody)
-      .expect(201)
-      .then(response => {
-        document = response.body.document;
-        url = `/api/documents/${document.id}`;
-        expect(document.id).to.be.greaterThan(0);
-        return document;
-      });
-  }
 
 });

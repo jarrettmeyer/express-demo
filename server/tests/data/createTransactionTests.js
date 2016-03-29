@@ -24,7 +24,6 @@ describe('data/createTransaction', () => {
   });
 
   it('can perform a more complex series of actions', () => {
-    let answer = 0;
     let client = null;
     let tableName = 'temp_table_' + Date.now().toString();
     return createClient()

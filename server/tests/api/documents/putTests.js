@@ -2,9 +2,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const debug = require('debug')('test');
 const expect = require('chai').expect;
-const findById = require('../../../services/documents/findById');
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
 const testUnauthorizedRequest = require('../testUnauthorizedRequest');
@@ -12,6 +10,30 @@ const testUnauthorizedRequest = require('../testUnauthorizedRequest');
 describe('PUT /api/documents/:id', () => {
 
   let document, email, token, url;
+
+  function createDocument() {
+    let postData = {
+      document: {
+        title: `test document ${Date.now()}`,
+        abstract: `This is a test for updating a document.`
+      }
+    };
+    return request()
+      .post('/api/documents')
+      .set('Authorization', token)
+      .send(postData)
+      .expect(201)
+      .then(response => {
+        // debug(`response: ${response}`);
+        document = response.body.document;
+        url = `/api/documents/${document.id}`;
+        // debug(`Using URL: ${url}`);
+        return document;
+      })
+      .catch(error => {
+        assert.fail(error);
+      });
+  }
 
   beforeEach(() => {
     email = 'alice@example.com';
@@ -61,28 +83,5 @@ describe('PUT /api/documents/:id', () => {
       });
   });
 
-  function createDocument() {
-    let postData = {
-      document: {
-        title: `test document ${Date.now()}`,
-        abstract: `This is a test for updating a document.`
-      }
-    };
-    return request()
-      .post('/api/documents')
-      .set('Authorization', token)
-      .send(postData)
-      .expect(201)
-      .then(response => {
-        // debug(`response: ${response}`);
-        document = response.body.document;
-        url = `/api/documents/${document.id}`;
-        // debug(`Using URL: ${url}`);
-        return document;
-      })
-      .catch(error => {
-        assert.fail(error);
-      });
-  }
 
 });

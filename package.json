@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "./scripts/build.sh",
-    "jshint": "./node_modules/.bin/jshint . --exclude=node_modules/ --reporter=node_modules/jshint-stylish",
+    "jshint": "./node_modules/.bin/jshint . --verbose --exclude=node_modules/ --reporter=node_modules/jshint-stylish",
     "smoke-tests": "./scripts/smoke-tests.sh",
     "start": "DEBUG=api,server,sql ./scripts/start-server",
     "test": "./scripts/test.sh"

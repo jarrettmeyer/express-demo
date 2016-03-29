@@ -1,7 +1,6 @@
 /* globals -Promise */
 'use strict';
 
-const Promise = require('bluebird');
 const validation = require('../validation');
 
 const rules = {

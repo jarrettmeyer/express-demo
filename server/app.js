@@ -4,9 +4,7 @@ const bodyParser = require('body-parser');
 const debug = require('debug')('api');
 const express = require('express');
 const logRequests = require('./utils/logRequests');
-const path = require('path');
 const routes = require('./routes');
-const _ = require('lodash');
 
 let app = express();
 
@@ -24,7 +22,11 @@ app.use((request, response, next) => {
   next(error);
 });
 
+/* jshint -W098 */
+// Error handlers are required to have 4 arguments. The `next` argument is not
+// used, but is required by the Express middleware.
 app.use((error, request, response, next) => {
+  /* jshint +W098 */
   let status = error.status || 500;
   let responseObject = {
     message: error.message,

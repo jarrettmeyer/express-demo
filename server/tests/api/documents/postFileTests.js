@@ -14,6 +14,29 @@ describe('POST /api/documents/:id/file', () => {
 
   let document, email, token, url;
 
+  function createDocument() {
+    let postData = {
+      document: {
+        title: `test document ${Date.now()}`,
+        abstract: `This is a test for attaching a file to a document.`
+      }
+    };
+    return request()
+      .post('/api/documents')
+      .set('Authorization', token)
+      .send(postData)
+      .expect(201)
+      .then(response => {
+        debug(`response: ${response}`);
+        document = response.body.document;
+        url = `/api/documents/${document.id}/file`;
+        debug(`Using URL: ${url}`);
+      })
+      .catch(error => {
+        assert.fail(error);
+      });
+  }
+
   beforeEach(() => {
     email = 'alice@example.com';
     token = getTokenForEmail(email);
@@ -77,27 +100,6 @@ describe('POST /api/documents/:id/file', () => {
       });
   });
 
-  function createDocument() {
-    let postData = {
-      document: {
-        title: `test document ${Date.now()}`,
-        abstract: `This is a test for attaching a file to a document.`
-      }
-    };
-    return request()
-      .post('/api/documents')
-      .set('Authorization', token)
-      .send(postData)
-      .expect(201)
-      .then(response => {
-        debug(`response: ${response}`);
-        document = response.body.document;
-        url = `/api/documents/${document.id}/file`;
-        debug(`Using URL: ${url}`);
-      })
-      .catch(error => {
-        assert.fail(error);
-      });
-  }
+
 
 });

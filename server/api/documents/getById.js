@@ -7,7 +7,19 @@ const errors = require('../../errors');
 const HttpForbidden = errors.HttpForbidden;
 const HttpNotFound = errors.HttpNotFound;
 
-module.exports = (request, response, next) => {
+function documentIsOwnedByCurrentUser(document, user) {
+  return document.ownerId === user.id;
+}
+
+function documentIsPublished(document) {
+  return document.published === true;
+}
+
+function documentIsRemoved(document) {
+  return document.removed === true;
+}
+
+function getById(request, response, next) {
   let documentId = request.params.id;
   debug(`Get document by id: ${documentId}`);
   return documents.findById(documentId)
@@ -23,16 +35,6 @@ module.exports = (request, response, next) => {
       }
       return next(new HttpForbidden());
     });
-};
-
-function documentIsOwnedByCurrentUser(document, user) {
-  return document.ownerId === user.id;
 }
 
-function documentIsPublished(document) {
-  return document.published === true;
-}
-
-function documentIsRemoved(document) {
-  return document.removed === true;
-}
+module.exports = getById;

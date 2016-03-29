@@ -1,17 +1,49 @@
 'use strict';
 
-const debug = require('debug')('server');
 const documents = require('../../services/documents');
 const _ = require('lodash');
 
-module.exports = (request, response) => {
-  let updatedProperties = getBodyDocument(request);
-  let doc = _.assign(request.document, updatedProperties);
-  return documents.update(doc)
-    .then(doc => {
-      return response.status(200).json({ document: doc.toJSON() });
-    });
-};
+const updatableProperties = ['abstract', 'title'];
+
+
+function getBodyDocument(request) {
+  // The following properties are allowed to be modified by a PUT request. Any
+  // other properties modified by the request should be ignored.
+  let whitelist = ['title', 'abstract', 'published'];
+  let doc = {};
+  whitelist.forEach(kw => {
+    if (request.body.document.hasOwnProperty(kw)) {
+      doc[kw] = request.body.document[kw];
+    }
+  });
+  return doc;
+}
+
+
+function isPropertyChanged(doc, updatedProperties, property) {
+  return updatedProperties[property] && doc[property] !== updatedProperties[property];
+}
+
+
+function isEdit(doc, updatedProperties) {
+  for (let i = 0; i < updatableProperties.length; i++) {
+    if (isPropertyChanged(doc, updatedProperties, updatedProperties[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+function isPublish(doc, updatedProperties) {
+  return updatedProperties.published === true && !doc.published;
+}
+
+
+function isUnpublish(doc, updatedProperties) {
+  return updatedProperties.published === false && doc.published;
+}
+
 
 function getActions(doc, updatedProperties) {
   let actions = [];
@@ -27,32 +59,16 @@ function getActions(doc, updatedProperties) {
   return actions;
 }
 
-function getBodyDocument(request) {
-  // The following properties are allowed to be modified by a PUT request. Any
-  // other properties modified by the request should be ignored.
-  let whitelist = ['title', 'abstract', 'published'];
-  let doc = {};
-  whitelist.forEach(kw => {
-    if (request.body.document.hasOwnProperty(kw)) {
-      doc[kw] = request.body.document[kw];
-    }
-  });
-  return doc;
+
+function put(request, response) {
+  let updatedProperties = getBodyDocument(request);
+  let doc = _.assign(request.document, updatedProperties);
+  let actions = getActions(request.document, updatedProperties);
+  return documents.update(doc, actions)
+    .then(doc => {
+      return response.status(200).json({ document: doc.toJSON() });
+    });
 }
 
-function isEdit(doc, updatedProperties) {
-  return isPropertyChanged(doc, updatedProperties, 'abstract') ||
-    isPropertyChanged(doc, updatedProperties, 'title');
-}
 
-function isPropertyChanged(doc, updatedProperties, property) {
-  return updatedProperties[property] && doc[property] !== updatedProperties[property];
-}
-
-function isPublish(doc, updatedProperties) {
-  return updatedProperties.published === true && !doc.published;
-}
-
-function isUnpublish(doc, updatedProperties) {
-  return updatedProperties.published === false && doc.published;
-}
+module.exports = put;

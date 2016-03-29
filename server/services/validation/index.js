@@ -1,9 +1,46 @@
 /* global -Promise */
 'use strict';
 
+const createPropertyError = require('./createPropertyError');
 const Promise = require('bluebird');
 const ValidationError = require('../../errors/ValidationError');
 const _ = require('lodash');
+
+
+function hasValue(value) {
+  return value !== undefined && value !== null && value !== '';
+}
+
+
+function checkMinValueProperty(value, key, rules) {
+  if (rules.minValue && hasValue(value) && value < rules.minValue) {
+    return createPropertyError(value, key, rules, `cannot be less than ${rules.minValue}`);
+  }
+}
+
+
+function checkRequiredProperty(value, key, rules) {
+  if (rules.required && !hasValue(value)) {
+    return createPropertyError(value, key, rules, 'is required');
+  }
+}
+
+
+function checkTypeofProperty(value, key, rules) {
+  if (rules.typeof && hasValue(value) && (typeof value !== rules.typeof)) {
+    return createPropertyError(value, key, rules, `must be of type ${rules.typeof}`);
+  }
+}
+
+
+function checkProperty(value, key, rules) {
+  let propertyErrors = [];
+  propertyErrors.push(checkRequiredProperty(value, key, rules));
+  propertyErrors.push(checkTypeofProperty(value, key, rules));
+  propertyErrors.push(checkMinValueProperty(value, key, rules));
+  return propertyErrors;
+}
+
 
 module.exports = {
 
@@ -28,53 +65,3 @@ module.exports = {
   }
 
 };
-
-
-function checkMinValueProperty(value, key, rules) {
-  if (rules.minValue && hasValue(value) && value < rules.minValue) {
-    return createPropertyError(value, key, rules, `cannot be less than ${rules.minValue}`);
-  }
-}
-
-
-function checkProperty(value, key, rules) {
-  let propertyErrors = [];
-  propertyErrors.push(checkRequiredProperty(value, key, rules));
-  propertyErrors.push(checkTypeofProperty(value, key, rules));
-  propertyErrors.push(checkMinValueProperty(value, key, rules));
-  return propertyErrors;
-}
-
-function checkRequiredProperty(value, key, rules) {
-  if (rules.required && !hasValue(value)) {
-    return createPropertyError(value, key, rules, 'is required');
-  }
-}
-
-function checkTypeofProperty(value, key, rules) {
-  if (rules.typeof && hasValue(value) && (typeof value !== rules.typeof)) {
-    return createPropertyError(value, key, rules, `must be of type ${rules.typeof}`);
-  }
-}
-
-function createPropertyError(value, key, rules, message, opts) {
-  let error = {
-    key: key,
-    message: getErrorMessage(key, rules, message),
-    value: value
-  };
-  _.assign(error, opts);
-  return error;
-}
-
-function getErrorMessage(key, rules, message) {
-  return `${getPropertyName(key, rules)} ${message}.`;
-}
-
-function getPropertyName(key, rules) {
-  return rules.propertyName || key;
-}
-
-function hasValue(value) {
-  return value !== undefined && value !== null && value !== '';
-}

@@ -1,8 +1,19 @@
 {
   "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
   "esversion": 6,
   "freeze": true,
+  "indent": 2,
+  "latedef": true,
+  "maxdepth": 3,
   "mocha": true,
+  "noarg": true,
+  "nocomma": true,
   "node": true,
+  "nonew": true,
+  "notypeof": true,
+  "undef": true,
+  "unused": true,
   "varstmt": true
 }

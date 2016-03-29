@@ -8,6 +8,15 @@ const ValidationError = require('../../../errors/ValidationError');
 describe('services/documents/validate', () => {
 
 
+  function createValidDocument() {
+    return {
+      ownerId: 10,
+      title: 'This is a valid document',
+      abstract: 'This is an example of a valid document'
+    };
+  }
+
+
   it('abstact: must be a string', () => {
     let document = createValidDocument();
     document.abstract = 9999;
@@ -67,15 +76,6 @@ describe('services/documents/validate', () => {
         expect(error.errors[0].message).to.equal('title must be of type string.');
       });
   });
-
-
-  function createValidDocument() {
-    return {
-      ownerId: 10,
-      title: 'This is a valid document',
-      abstract: 'This is an example of a valid document'
-    };
-  }
 
 
 });

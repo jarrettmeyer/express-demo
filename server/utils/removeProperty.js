@@ -1,6 +1,7 @@
 'use strict';
 
 const isObject = require('./isObject');
+const toArray = require('./toArray');
 
 function contains(list, element) {
   for (let i = 0; i < list.length; i++) {
@@ -25,13 +26,6 @@ function removeProperty(obj, blacklist) {
     });
   }
   return obj;
-}
-
-function toArray(list) {
-  if (Array.isArray(list)) {
-    return list;
-  }
-  return [].concat(list);
 }
 
 module.exports = removeProperty;

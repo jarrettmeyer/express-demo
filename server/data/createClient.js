@@ -8,7 +8,7 @@ const Promise = require('bluebird');
 module.exports = () => {
   let connString = getConnectionString();
   return new Promise((resolve, reject) => {
-    pg.connect(connString, (err, client, done) => {
+    pg.connect(connString, (err, client) => {
       if (err) {
         return reject(err);
       }

@@ -6,7 +6,19 @@ const errors = require('../../errors');
 const HttpForbidden = errors.HttpForbidden;
 const HttpNotFound = errors.HttpNotFound;
 
-module.exports = (request, response, next) => {
+function documentBelongsToCurrentUser(doc, user) {
+  return doc.ownerId === user.id;
+}
+
+function documentDoesNotExist(doc) {
+  return !doc || doc.removed;
+}
+
+function documentIsPublished(doc) {
+  return doc.published;
+}
+
+function getFile(request, response) {
   let documentId = request.params.id;
   return documents.findById(documentId)
     .then(doc => {
@@ -34,16 +46,6 @@ module.exports = (request, response, next) => {
       }
       throw new HttpNotFound();
     });
-};
-
-function documentBelongsToCurrentUser(doc, user) {
-  return doc.ownerId === user.id;
 }
 
-function documentDoesNotExist(doc) {
-  return !doc || doc.removed;
-}
-
-function documentIsPublished(doc) {
-  return doc.published;
-}
+module.exports = getFile;

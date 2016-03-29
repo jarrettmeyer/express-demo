@@ -27,7 +27,7 @@ describe('POST /api/login', () => {
     return request()
       .post('/api/login')
       .send({ email: 'claire@example.com', password: 'test' })
-      .then(response => {
+      .then(() => {
         return users.findByEmail('claire@example.com');
       })
       .then(user => {

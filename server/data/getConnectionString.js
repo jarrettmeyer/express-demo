@@ -1,16 +1,6 @@
 'use strict';
 const dbConfig = require('../../database.json');
 
-module.exports = function () {
-  let connString = getConnectionStringFromEnvironment();
-  if (connString) {
-    return connString;
-  }
-
-  let nodeEnv = getNodeEnvFromEnvironment();
-  connString = buildConnectionString(nodeEnv);
-  return connString;
-};
 
 function buildConnectionString(nodeEnv) {
   const config = dbConfig[nodeEnv];
@@ -25,6 +15,7 @@ function getConnectionStringFromEnvironment() {
   return process.env.CONNECTION_STRING;
 }
 
+
 function getNodeEnvFromEnvironment() {
   let nodeEnv = process.env.NODE_ENV;
   if (!nodeEnv) {
@@ -33,3 +24,18 @@ function getNodeEnvFromEnvironment() {
   nodeEnv = nodeEnv.toLowerCase();
   return nodeEnv;
 }
+
+
+function getConnectionString() {
+  let connString = getConnectionStringFromEnvironment();
+  if (connString) {
+    return connString;
+  }
+
+  let nodeEnv = getNodeEnvFromEnvironment();
+  connString = buildConnectionString(nodeEnv);
+  return connString;
+}
+
+
+module.exports = getConnectionString;

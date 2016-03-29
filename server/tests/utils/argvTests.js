@@ -5,8 +5,6 @@ const expect = require('chai').expect;
 
 describe('utils/getArguments()', () => {
 
-  let args = null;
-
   function dummy() {
     return argv(arguments);
   }

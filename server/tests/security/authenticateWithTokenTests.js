@@ -16,6 +16,13 @@ describe('security/authenticateWithToken()', () => {
   let request = null;
   let response = null;
 
+  function next() {
+    isNextCalled = true;
+    nextArgs = argv(arguments);
+    return Promise.resolve();
+  }
+
+
   beforeEach(() => {
     email = 'dorothy@example.com';
     isNextCalled = false;
@@ -77,10 +84,5 @@ describe('security/authenticateWithToken()', () => {
       });
   });
 
-  function next() {
-    isNextCalled = true;
-    nextArgs = argv(arguments);
-    return Promise.resolve();
-  }
 
 });
