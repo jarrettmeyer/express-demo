@@ -7,7 +7,8 @@
     "jshint": "./node_modules/.bin/jshint . --verbose --exclude=node_modules/ --reporter=node_modules/jshint-stylish",
     "smoke-tests": "./scripts/smoke-tests.sh",
     "start": "DEBUG=api,server,sql ./scripts/start-server",
-    "test": "./scripts/test.sh"
+    "test": "./scripts/test.sh",
+    "validate": "npm run jshint && npm run test"
   },
   "dependencies": {
     "async": "^1.5.2",
