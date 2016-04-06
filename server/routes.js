@@ -10,6 +10,7 @@ const requireDocumentOwnership = require('./security/requireDocumentOwnership');
 const router = express.Router();
 const upload = multer();
 
+router.get('/', api.getRoot);
 router.get('/api/status', api.getStatus);
 
 router.post('/api/login', api.login);
