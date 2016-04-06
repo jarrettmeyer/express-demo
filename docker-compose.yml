@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+
+  web:
+    container_name: expressdemo_web
+    build: .
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: expressdemo_postgres
+    image: postgres:9.5.1
+    ports:
+      - 127.0.0.1:5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
