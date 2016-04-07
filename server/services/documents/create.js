@@ -3,6 +3,7 @@
 const activityLogs = require('../../services/activityLogs');
 const createTransaction = require('../../data').createTransaction;
 const Document = require('../../models').Document;
+const lastElement = require('../../utils/lastElement');
 const validate = require('./validate');
 
 const activityLogDescription = 'create document';
@@ -21,6 +22,13 @@ function createActivityLogData(row) {
 }
 
 
+function rollbackTransaction(txn) {
+  if (txn && typeof txn.rollback === 'function') {
+    txn.rollback();
+  }
+}
+
+
 function createDocumentSqlParams(document) {
   return [
     document.owner_id || document.ownerId,
@@ -36,6 +44,7 @@ function createDocumentSqlParams(document) {
 
 
 module.exports = (document) => {
+  let documentRow = null;
   let txn = null;
   let params = null;
   return validate(document)
@@ -49,12 +58,16 @@ module.exports = (document) => {
       return txn.query(sql, params);
     })
     .then(results => {
-      let row = results[1].rows[0];
-      let activityLogData = createActivityLogData(row);
+      documentRow = lastElement(results).rows[0];
+      let activityLogData = createActivityLogData(documentRow);
       activityLogs.create(activityLogData, { transaction: txn });
       return txn.commit();
     })
-    .then(results => {
-      return new Document(results[1].rows[0]);
+    .then(() => {
+      return new Document(documentRow);
+    })
+    .catch(error => {
+      rollbackTransaction(txn);
+      throw error;
     });
 };

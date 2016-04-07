@@ -17,7 +17,7 @@ function postFile(request, response) {
   return saveFile(request.file.buffer.data, request.user)
     .then(saveFileResult => {
       let documentData = getDocumentData(request.document, request.file, saveFileResult);
-      return documents.update(documentData);
+      return documents.updateFile(documentData);
     })
     .then(updateDocumentResult => {
       responseDocument = updateDocumentResult;
