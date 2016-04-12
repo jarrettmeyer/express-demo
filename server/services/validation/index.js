@@ -46,18 +46,18 @@ module.exports = {
 
   validate(model, rules) {
     return new Promise((resolve, reject) => {
-      let modelErrors = [];
+      let propertyErrors = [];
       Object.keys(rules).forEach(key => {
         let value = model[key];
-        modelErrors.push(checkProperty(value, key, rules[key]));
+        propertyErrors.push(checkProperty(value, key, rules[key]));
       });
       // Flatten returns a new array. Remove mutates the original array.
-      modelErrors = _.flatten(modelErrors);
-      _.remove(modelErrors, err => { return !err; });
-      if (modelErrors.length) {
+      propertyErrors = _.flatten(propertyErrors);
+      _.remove(propertyErrors, err => { return !err; });
+      if (propertyErrors.length) {
         let validationError = new ValidationError();
         validationError.model = model;
-        validationError.errors = modelErrors;
+        validationError.errors = propertyErrors;
         return reject(validationError);
       }
       return resolve(model);
