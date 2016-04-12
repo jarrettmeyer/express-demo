@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const debug = require('debug')('api');
 const express = require('express');
 const logRequests = require('./utils/logRequests');
+const pageNotFound = require('./utils/pageNotFound');
 const routes = require('./routes');
 
 let app = express();
@@ -14,13 +15,7 @@ app.use(logRequests());
 app.use('/', routes);
 
 // catch 404 and forward to error handler
-app.use((request, response, next) => {
-  let error = new Error(`The requested page ${request.path} could not be found.`);
-  error.status = 404;
-  debug(`Error: Not found`);
-  debug(`       ${error.message}`);
-  next(error);
-});
+app.use(pageNotFound);
 
 /* jshint -W098 */
 // Error handlers are required to have 4 arguments. The `next` argument is not
