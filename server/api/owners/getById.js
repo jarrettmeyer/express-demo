@@ -5,7 +5,6 @@ const toOwnerJson = require('./helpers/toOwnerJson');
 const User = require('../../models/User');
 
 module.exports = (request, response, next) => {
-  console.log('owner id:', request.params.id);
   let documentCriteria = {
     attributes: ['id', 'ownerId'],
     where: {

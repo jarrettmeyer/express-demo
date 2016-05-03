@@ -19,7 +19,7 @@ const ActivityLog = sequelize.define('activity_log', {
   },
   createdAt: { type: Sequelize.DATE, field: 'created_at', allowNull: false }
 }, {
-  tableName: 'documents',
+  tableName: 'activity_logs',
   timestamps: false
 });
 
