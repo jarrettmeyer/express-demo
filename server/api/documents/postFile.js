@@ -1,26 +1,30 @@
 'use strict';
 const Document = require('../../models/Document');
 const saveFile = require('../../services/saveFile');
+const toDocumentJson = require('./helpers/toDocumentJson');
 
 function updateDocument(id, file, path) {
-  return Document.update({
+  let updateSpec = {
     originalFilename: file.originalname,
     path: path,
     type: file.mimetype
-  }, {
+  };
+  let updateCriteria = {
     where: { id: id }
-  });
+  };
+  return Document.update(updateSpec, updateCriteria);
 }
 
 function postFile(request, response) {
-  let responseDocument = null;
   return saveFile(request.file.buffer.data, request.user)
     .then(saveFileResult => {
       return updateDocument(request.document.id, request.file, saveFileResult.path);
     })
-    .then(updateDocumentResult => {
-      responseDocument = updateDocumentResult;
-      return response.status(200).json({ document: responseDocument.toJSON() });
+    .then(() => {
+      return Document.findById(request.document.id);
+    })
+    .then(document => {
+      return response.status(200).json({ document: toDocumentJson(document) });
     });
 }
 

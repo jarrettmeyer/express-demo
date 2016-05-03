@@ -3,8 +3,8 @@
 
 const assert = require('chai').assert;
 const debug = require('debug')('test');
+const Document = require('../../../models/Document');
 const expect = require('chai').expect;
-const findById = require('../../../services/documents/findById');
 const fs = require('fs');
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
@@ -92,7 +92,7 @@ describe('POST /api/documents/:id/file', () => {
       .attach('attachment', 'userdata/documents/sample.txt')
       .then(response => {
         let docId = response.body.document.id;
-        return findById(docId);
+        return Document.findById(docId);
       })
       .then(doc => {
         let error = fs.accessSync(doc.path);
