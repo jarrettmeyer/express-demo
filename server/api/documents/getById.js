@@ -3,6 +3,7 @@
 const debug = require('debug')('server');
 const Document = require('../../models/Document');
 const errors = require('../../errors');
+const toDocumentJson = require('./helpers/toDocumentJson');
 
 const HttpForbidden = errors.HttpForbidden;
 const HttpNotFound = errors.HttpNotFound;
@@ -28,10 +29,10 @@ function getById(request, response, next) {
         return next(new HttpNotFound());
       }
       if (documentIsPublished(document)) {
-        return response.status(200).json({ document: document.toJSON() });
+        return response.status(200).json({ document: toDocumentJson(document) });
       }
       if (documentIsOwnedByCurrentUser(document, request.user)) {
-        return response.status(200).json({ document: document.toJSON() });
+        return response.status(200).json({ document: toDocumentJson(document) });
       }
       return next(new HttpForbidden());
     });

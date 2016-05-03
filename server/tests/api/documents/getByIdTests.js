@@ -40,6 +40,17 @@ describe('GET /api/documents/:id', () => {
     return createDocument();
   });
 
+  it('does not include the path or removed properties in the document', () => {
+    return request()
+      .get(url)
+      .set('Authorization', token)
+      .expect(200)
+      .then(response => {
+        expect(response.body.document.removed).to.equal(undefined);
+        expect(response.body.document.path).to.equal(undefined);
+      });
+  });
+
   it('does not return a removed document', () => {
     return createDocument({ removed: true })
       .then(doc => {
