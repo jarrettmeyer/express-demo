@@ -1,6 +1,5 @@
 'use strict';
-
-const documents = require('../../services/documents');
+const Document = require('../../models/Document');
 const errors = require('../../errors');
 
 const HttpForbidden = errors.HttpForbidden;
@@ -20,7 +19,7 @@ function documentIsPublished(doc) {
 
 function getFile(request, response) {
   let documentId = request.params.id;
-  return documents.findById(documentId)
+  return Document.findById(documentId)
     .then(doc => {
       if (documentDoesNotExist(doc)) {
         throw new HttpNotFound();

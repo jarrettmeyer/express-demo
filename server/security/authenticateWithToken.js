@@ -1,11 +1,9 @@
 'use strict';
 
 const debug = require('debug')('server');
-const services = require('../services');
+const decodeToken = require('../services/helpers/decodeToken');
 const HttpError = require('../errors').HttpError;
-
-const decodeToken = services.authentication.decodeToken;
-const users = services.users;
+const User = require('../models/User');
 
 
 function getParts(string) {
@@ -95,8 +93,10 @@ function authenticateWithToken(request, response, next) {
   if (!auth.authorized) {
     return next(unauthorized());
   }
-  return users.findByEmail(auth.decodedToken.email)
+  // return users.findByEmail(auth.decodedToken.email)
+  return User.findOneByEmail(auth.decodedToken.email)
     .then(user => {
+      console.log('auth user:', user.email);
       return onUserFound(request, user, auth, next);
     });
 }

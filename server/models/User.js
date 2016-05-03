@@ -1,29 +1,35 @@
 'use strict';
+const connection = require('./helpers/connection');
+const findOneByEmail = require('./finders/user_findOneByEmail');
+const Sequelize = connection.Sequelize;
+const sequelize = connection.sequelize;
 
-class User {
-  constructor(spec) {
-    spec = spec || {};
-    this.id = spec.id;
-    this.displayName = spec.displayName || spec.display_name;
-    this.email = spec.email;
-    this.hashedPassword = spec.hashedPassword || spec.hashed_password;
-    this.admin = spec.admin;
-    this.removed = spec.removed;
-    this.tokenIssuedAt = spec.tokenIssuedAt || spec.token_issued_at;
-    this.createdAt = spec.createdAt || spec.created_at;
-  }
+const User = sequelize.define('user', {
+  displayName: { type: Sequelize.STRING, field: 'display_name' },
+  email: { type: Sequelize.STRING, allowNull: false, notNull: true, isEmail: true },
+  hashedPassword: { type: Sequelize.STRING, field: 'hashed_password', allowNull: false },
+  admin: { type: Sequelize.BOOLEAN, defaultValue: false },
+  removed: { type: Sequelize.BOOLEAN, defaultValue: false },
+  tokenIssuedAt: { type: Sequelize.DATE, field: 'token_issued_at' }
+}, {
+  tableName: 'users',
+  timestamps: false
+});
 
-  toJSON() {
-    return {
-      id: this.id,
-      displayName: this.displayName,
-      email: this.email,
-      admin: this.admin,
-      removed: this.removed,
-      tokenIssuedAt: this.tokenIssuedAt,
-      createdAt: this.createdAt
-    };
-  }
-}
+findOneByEmail(User);
+
+//
+//   toJSON() {
+//     return {
+//       id: this.id,
+//       displayName: this.displayName,
+//       email: this.email,
+//       admin: this.admin,
+//       removed: this.removed,
+//       tokenIssuedAt: this.tokenIssuedAt,
+//       createdAt: this.createdAt
+//     };
+//   }
+// }
 
 module.exports = User;

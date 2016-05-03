@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
 const testUnauthorizedRequest = require('../testUnauthorizedRequest');
-const users = require('../../../services/users');
+const User = require('../../../models/User');
 
 const url = '/api/documents';
 
@@ -21,7 +21,7 @@ describe('GET /api/documents', () => {
 
   beforeEach(() => {
     let email = 'alice@example.com';
-    return users.findByEmail(email)
+    return User.findOneByEmail(email)
       .then(_user => {
         currentUser = _user;
         validToken = getTokenForEmail(email);

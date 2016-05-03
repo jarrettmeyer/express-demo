@@ -1,8 +1,10 @@
-const users = require('../../services').users;
+'use strict';
+const User = require('../../models/User');
 
-module.exports = function (req, res) {
-  return users.findAll()
+module.exports = function (request, response) {
+  return User.findAll()
     .then(users => {
-      return res.json({ users: users });
+      console.log('users:', users);
+      return response.status(200).json({ users: users });
     });
 };

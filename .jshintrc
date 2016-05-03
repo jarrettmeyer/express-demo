@@ -13,6 +13,7 @@
   "node": true,
   "nonew": true,
   "notypeof": true,
+  "predef": ["-Promise"],
   "undef": true,
   "unused": true,
   "varstmt": true

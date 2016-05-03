@@ -1,14 +1,14 @@
 'use strict';
+const Document = require('../../models/Document');
+const saveFile = require('../../services/saveFile');
 
-const documents = require('../../services/documents');
-const saveFile = require('../../services/files/saveFile');
-const _ = require('lodash');
-
-function getDocumentData(document, fileData, saveFileResult) {
-  return _.assign(document, {
-    originalFilename: fileData.originalname,
-    type: fileData.mimetype,
-    path: saveFileResult.path
+function updateDocument(id, file, path) {
+  return Document.update({
+    originalFilename: file.originalname,
+    path: path,
+    type: file.mimetype
+  }, {
+    where: { id: id }
   });
 }
 
@@ -16,8 +16,7 @@ function postFile(request, response) {
   let responseDocument = null;
   return saveFile(request.file.buffer.data, request.user)
     .then(saveFileResult => {
-      let documentData = getDocumentData(request.document, request.file, saveFileResult);
-      return documents.updateFile(documentData);
+      return updateDocument(request.document.id, request.file, saveFileResult.path);
     })
     .then(updateDocumentResult => {
       responseDocument = updateDocumentResult;

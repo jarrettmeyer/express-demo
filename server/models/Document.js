@@ -1,34 +1,31 @@
 'use strict';
+const connection = require('./helpers/connection');
+const findAllPublished = require('./finders/document_findAllPublished');
+const Sequelize = connection.Sequelize;
+const sequelize = connection.sequelize;
+const User = require('./User');
 
-/**
- * class Document
- *
- * Note: the `path` property has been removed from the object.
- */
-class Document {
-  constructor(spec) {
-    spec = spec || {};
-    this.id = spec.id;
-    this.ownerId = spec.ownerId || spec.owner_id;
-    this.title = spec.title;
-    this.abstract = spec.abstract;
-    this.originalFilename = spec.originalFilename || spec.original_filename;
-    this.type = spec.type;
-    this.path = spec.path;
-    this.published = spec.published;
-    this.removed = spec.removed;
-  }
+const Document = sequelize.define('document', {
+  ownerId: {
+    type: Sequelize.INTEGER,
+    field: 'owner_id',
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  title: { type: Sequelize.STRING },
+  abstract: { type: Sequelize.TEXT },
+  originalFilename: { type: Sequelize.STRING, field: 'original_filename' },
+  type: { type: Sequelize.STRING },
+  path: { type: Sequelize.STRING },
+  published: { type: Sequelize.BOOLEAN, defaultValue: false },
+  removed: { type: Sequelize.BOOLEAN, defaultValue: false }
+}, {
+  tableName: 'documents',
+  timestamps: false
+});
 
-  toJSON() {
-    return {
-      id: this.id,
-      ownerId: this.ownerId,
-      title: this.title,
-      abstract: this.abstract,
-      type: this.type,
-      published: this.published
-    };
-  }
-}
+findAllPublished(Document);
 
 module.exports = Document;

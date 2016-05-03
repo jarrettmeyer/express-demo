@@ -1,6 +1,6 @@
 'use strict';
-
-const documents = require('../../services').documents;
+const Document = require('../../models/Document');
+const toDocumentJson = require('./helpers/toDocumentJson');
 
 /**
  * getAll
@@ -10,13 +10,22 @@ const documents = require('../../services').documents;
  * documents for all users.
  */
 module.exports = (request, response) => {
-  return documents.findAll({ ownerId: request.user.id })
+  let documentCriteria = {
+    where: {
+      $and: [
+        {
+          $or: [
+            { ownerId: request.user.id },
+            { published: true }
+          ]
+        },
+        { removed: false }
+      ]
+    }
+  };
+  return Document.findAll(documentCriteria)
     .then(documents => {
       return response.status(200)
-        .json({
-          documents: documents.map(doc => {
-            return doc.toJSON();
-          })
-        });
+        .json({ documents: documents.map(toDocumentJson) });
     });
 };

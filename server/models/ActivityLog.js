@@ -1,15 +1,27 @@
 'use strict';
+const connection = require('./helpers/connection');
+const Sequelize = connection.Sequelize;
+const sequelize = connection.sequelize;
+const User = require('./User');
 
-class ActivityLog {
-  constructor(spec) {
-    spec = spec || {};
-    this.id = spec.id;
-    this.refType = spec.refType || spec.ref_type;
-    this.refId = spec.refId || spec.ref_id;
-    this.description = spec.description;
-    this.userId = spec.userId || spec.user_id;
-    this.createdAt = spec.createdAt || spec.created_at;
-  }
-}
+
+const ActivityLog = sequelize.define('activity_log', {
+  refType: { type: Sequelize.STRING, field: 'ref_type' },
+  refId: { type: Sequelize.INTEGER, field: 'ref_id' },
+  description: { type: Sequelize.STRING },
+  userId: {
+    type: Sequelize.INTEGER,
+    field: 'user_id',
+    references: {
+      model: User,
+      key: 'id'
+    }
+  },
+  createdAt: { type: Sequelize.DATE, field: 'created_at', allowNull: false }
+}, {
+  tableName: 'documents',
+  timestamps: false
+});
+
 
 module.exports = ActivityLog;

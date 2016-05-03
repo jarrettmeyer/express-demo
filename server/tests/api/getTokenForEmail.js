@@ -1,6 +1,5 @@
 'use strict';
-
-const createToken = require('../../services/authentication/createToken');
+const createToken = require('../../services/createToken');
 const users = require('../../../fixtures/users');
 const _ = require('lodash');
 

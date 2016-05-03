@@ -1,16 +1,27 @@
 #!/usr/bin/env node
 'use strict';
-
+const createDocument = require('../server/services/createDocument');
+const createUser = require('../server/services/createUser');
 const Promise = require('bluebird');
-const services = require('../server/services');
 const documents = require('../fixtures/documents');
 const users = require('../fixtures/users');
 const _ = require('lodash');
 
 let result = {};
 
-return Promise.map(users, services.users.create)
+function done() {
+  process.exit(0);
+}
+
+function error(error) {
+  console.error(error);
+  process.exit(1);
+}
+
+
+return Promise.map(users, createUser)
   .then(savedUsers => {
+    // console.log('saved users:', savedUsers);
     result.users = savedUsers;
     documents.forEach(doc => {
       doc.owner = _.find(result.users, { email: doc.ownerEmail });
@@ -21,19 +32,10 @@ return Promise.map(users, services.users.create)
         doc.ownerId = doc.owner.id;
       }
     });
-    return Promise.map(documents, services.documents.create);
+    return Promise.map(documents, createDocument);
   })
   .then(savedDocuments => {
     result.documents = savedDocuments;
   })
   .then(done)
   .catch(error);
-
-function done() {
-  process.exit(0);
-}
-
-function error(error) {
-  console.error(error);
-  process.exit(1);
-}

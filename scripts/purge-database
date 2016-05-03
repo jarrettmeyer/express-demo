@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
+const ActivityLog = require('../server/models/ActivityLog');
+const Document = require('../server/models/Document');
 const Promise = require('bluebird');
-const executeQuery = require('../server/data').executeQuery;
+const User = require('../server/models/User');
 
-const tables = ['activity_logs', 'documents', 'users'];
+let models = [ActivityLog, Document, User];
 
-Promise.map(tables, truncateTable)
-  .then(done)
-  .catch(error);
 
 function done() {
   process.exit(0);
@@ -18,7 +17,10 @@ function error(err) {
   process.exit(1);
 }
 
-function truncateTable(table) {
-  let sql = `TRUNCATE ${table} RESTART IDENTITY;`;
-  return executeQuery(sql);
+function truncateTable(model) {
+  return model.destroy({ truncate: true });
 }
+
+Promise.map(models, truncateTable)
+  .then(done)
+  .catch(error);

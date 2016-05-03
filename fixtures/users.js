@@ -9,13 +9,15 @@ module.exports = [{
   clearPassword: 'test',
   tokenIssuedAt: new Date('2016-01-01T00:00:00Z'),
   admin: false,
-  removed: false
+  removed: false,
+  displayName: 'Alice A.'
 }, {
   email: 'betty@example.com',
   clearPassword: 'test',
   tokenIssuedAt: new Date('2016-01-01T00:00:00Z'),
   admin: false,
-  removed: true
+  removed: true,
+  displayName: 'Betty B.'
 }, {
   email: 'claire@example.com',
   clearPassword: 'test',

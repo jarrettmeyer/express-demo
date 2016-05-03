@@ -1,8 +1,9 @@
 'use strict';
-
+const checkCredentials = require('../services/checkCredentials');
+const createToken = require('../services/createToken');
 const debug = require('debug')('server');
 const errors = require('../errors');
-const services = require('../services');
+const updateUserTokenIssuedAt = require('../services/updateUserTokenIssuedAt');
 
 const HttpBadRequest = errors.HttpBadRequest;
 const HttpError = errors.HttpError;
@@ -17,18 +18,16 @@ module.exports = function (req, res, next) {
     debug('Credentials does not have a password property.');
     return next(new HttpBadRequest());
   }
-  let now = new Date();
-  let token = null;
-  let user = null;
+  let now = new Date(), token = null, user = null;
   debug(`Authenticating user: ${credentials.email}.`);
-  return services.authentication.checkCredentials(credentials)
+  return checkCredentials(credentials)
     .then(_user => {
       user = _user;
-      return services.authentication.createToken(user.email, { now: now });
+      return createToken(user.email, { now: now });
     })
     .then(_token => {
       token = _token;
-      return services.users.updateTokenIssuedAt(user.id, now);
+      return updateUserTokenIssuedAt(user.id, now);
     })
     .then(() => {
       return res.status(200).json({ token: token });

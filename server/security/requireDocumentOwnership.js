@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('server');
-const documents = require('../services/documents');
+const Document = require('../models/Document');
 const errors = require('../errors');
 
 const HttpForbidden = errors.HttpForbidden;
@@ -10,7 +10,7 @@ const HttpNotFound = errors.HttpNotFound;
 module.exports = (request, response, next) => {
   let documentId = request.params.id;
   let userId = request.user.id;
-  documents.findById(documentId)
+  Document.findById(documentId)
     .then(document => {
       if (!document) {
         debug(`Document does not exist. id = ${documentId}`);

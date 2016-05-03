@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('server');
-const documents = require('../../services/documents');
+const Document = require('../../models/Document');
 const errors = require('../../errors');
 
 const HttpForbidden = errors.HttpForbidden;
@@ -22,7 +22,7 @@ function documentIsRemoved(document) {
 function getById(request, response, next) {
   let documentId = request.params.id;
   debug(`Get document by id: ${documentId}`);
-  return documents.findById(documentId)
+  return Document.findById(documentId)
     .then(document => {
       if (documentIsRemoved(document)) {
         return next(new HttpNotFound());

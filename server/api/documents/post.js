@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('server');
-const documents = require('../../services').documents;
+const Document = require('../../models/Document');
 const ValidationError = require('../../errors').ValidationError;
 
 module.exports = (request, response, next) => {
@@ -11,7 +11,7 @@ module.exports = (request, response, next) => {
   }
   documentData.ownerId = request.user.id;
   debug(`Saving a new document for owner (${documentData.ownerId}).`);
-  return documents.create(documentData)
+  return Document.create(documentData)
     .then(document => {
       debug(`Successfully saved new document id (${document.id}).`);
       return response.status(201)

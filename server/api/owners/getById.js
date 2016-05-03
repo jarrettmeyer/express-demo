@@ -1,15 +1,32 @@
 'use strict';
-
+const Document = require('../../models/Document');
 const HttpNotFound = require('../../errors').HttpNotFound;
-const users = require('../../services').users;
+const toOwnerJson = require('./helpers/toOwnerJson');
+const User = require('../../models/User');
 
 module.exports = (request, response, next) => {
-  let id = request.params.id;
-  return users.findOwnerById(id)
-    .then(owner => {
-      if (owner) {
-        return response.status(200).json({ owner: owner });
+  console.log('owner id:', request.params.id);
+  let documentCriteria = {
+    attributes: ['id', 'ownerId'],
+    where: {
+      $and: [
+        { ownerId: request.params.id },
+        { published: true },
+        { removed: false }
+      ]
+    }
+  };
+  return Document.findOne(documentCriteria)
+    .then(document => {
+      if (document) {
+        return User.findById(document.ownerId);
       }
-      return next(new HttpNotFound(`Unable to find owner with id ${id}.`));
-    });
+      // No document could be found with the given criteria. Throw an HttpNotFound
+      // error and let the error handler deal with it.
+      throw new HttpNotFound(`Unable to find owner with id ${request.params.id}.`);
+    })
+    .then(user => {
+      return response.status(200).json({ owner: toOwnerJson(user) });
+    })
+    .catch(next);
 };

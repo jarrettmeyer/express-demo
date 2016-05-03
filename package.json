@@ -22,7 +22,8 @@
     "mocha": "^2.4.5",
     "multer": "^1.1.0",
     "node-uuid": "^1.4.7",
-    "pg": "^4.5.1"
+    "pg": "^4.5.1",
+    "sequelize": "^3.22.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
