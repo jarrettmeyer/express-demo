@@ -3,12 +3,21 @@ const User = require('../models/User');
 
 
 function updateUserTokenIssuedAt(userId, now) {
-  now = now || new Date();
-  return User.update({
-    tokenIssuedAt: now
-  }, {
-    where: { id: userId }
-  })
+  let spec = {
+    tokenIssuedAt: now || new Date()
+  };
+  let criteria = {
+    where: {
+      $and: [
+        { id: userId },
+        { removed: false }
+      ]
+    }
+  };
+  return User.update(spec, criteria)
+    .then(affected => {
+      return affected[0];
+    });
 }
 
 

@@ -96,7 +96,6 @@ function authenticateWithToken(request, response, next) {
   // return users.findByEmail(auth.decodedToken.email)
   return User.findOneByEmail(auth.decodedToken.email)
     .then(user => {
-      console.log('auth user:', user.email);
       return onUserFound(request, user, auth, next);
     });
 }

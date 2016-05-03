@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect;
 const request = require('./setupRequest');
-const users = require('../../services/users');
+const User = require('../../models/User');
 
 describe('POST /api/login', () => {
 
@@ -28,7 +28,7 @@ describe('POST /api/login', () => {
       .post('/api/login')
       .send({ email: 'claire@example.com', password: 'test' })
       .then(() => {
-        return users.findByEmail('claire@example.com');
+        return User.findOneByEmail('claire@example.com');
       })
       .then(user => {
         expect(user.tokenIssuedAt.getTime()).to.be.closeTo(Date.now(), 200);

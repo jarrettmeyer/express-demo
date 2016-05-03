@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const saveFile = require('../../../services/files/saveFile');
+const saveFile = require('../../services/saveFile');
 
 describe('files/saveFile', () => {
 
