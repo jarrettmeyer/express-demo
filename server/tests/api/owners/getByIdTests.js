@@ -5,7 +5,6 @@ const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
 const testUnauthorizedRequest = require('../testUnauthorizedRequest');
-const _ = require('lodash');
 
 describe('GET /api/owners/:id', () => {
 

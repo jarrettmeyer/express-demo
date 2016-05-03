@@ -7,7 +7,7 @@ const request = require('../setupRequest');
 
 describe('GET /api/documents/:id/file', () => {
 
-  let docId, docs;
+  let docId;
 
   beforeEach(() => {
     return Document.findAll({ where: { title: 'Fixture document #4' } })
