@@ -18,8 +18,7 @@ function documentIsPublished(doc) {
 }
 
 function getFile(request, response) {
-  let documentId = request.params.id;
-  return Document.findById(documentId)
+  return Document.findById(request.params.id)
     .then(doc => {
       if (documentDoesNotExist(doc)) {
         throw new HttpNotFound();

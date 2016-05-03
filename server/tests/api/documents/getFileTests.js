@@ -1,6 +1,6 @@
 'use strict';
 
-const documents = require('../../../services/documents');
+const Document = require('../../../models/Document');
 const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
@@ -10,12 +10,9 @@ describe('GET /api/documents/:id/file', () => {
   let docId, docs;
 
   beforeEach(() => {
-    return documents.findAll({ ownerId: -1 })
+    return Document.findAll({ where: { title: 'Fixture document #4' } })
       .then(_docs => {
-        docs = _docs;
-        docId = _docs.filter(doc => {
-          return doc.title === 'Fixture document #4';
-        })[0].id;
+        docId = _docs[0].id;
       });
   });
 
