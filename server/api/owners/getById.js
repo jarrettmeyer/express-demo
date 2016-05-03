@@ -1,7 +1,7 @@
 'use strict';
 const Document = require('../../models/Document');
 const HttpNotFound = require('../../errors').HttpNotFound;
-const toOwnerJson = require('./helpers/toOwnerJson');
+const toOwnerJson = require('./toOwnerJson');
 const User = require('../../models/User');
 
 module.exports = (request, response, next) => {

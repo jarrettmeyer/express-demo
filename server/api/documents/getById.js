@@ -3,7 +3,7 @@
 const debug = require('debug')('server');
 const Document = require('../../models/Document');
 const errors = require('../../errors');
-const toDocumentJson = require('./helpers/toDocumentJson');
+const toDocumentJson = require('./toDocumentJson');
 
 const HttpForbidden = errors.HttpForbidden;
 const HttpNotFound = errors.HttpNotFound;

@@ -2,7 +2,7 @@
 const ActivityLog = require('../../models/ActivityLog');
 const Document = require('../../models/Document');
 const saveFile = require('../../services/saveFile');
-const toDocumentJson = require('./helpers/toDocumentJson');
+const toDocumentJson = require('./toDocumentJson');
 
 
 function updateDocument(id, file, path) {
@@ -26,7 +26,7 @@ function postFile(request, response) {
       let activityLogSpec = {
         refType: 'document',
         refId: request.document.id,
-        description: `save file: ${request.file.originalname}`,
+        description: 'upload file',
         userId: request.user.id,
         createdAt: new Date()
       };

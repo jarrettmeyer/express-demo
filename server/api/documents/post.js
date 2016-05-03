@@ -1,6 +1,7 @@
 'use strict';
 const createDocument = require('../../services/createDocument');
 const debug = require('debug')('server');
+const toDocumentJson = require('./toDocumentJson');
 
 module.exports = (request, response, next) => {
   let documentData = request.body.document;
@@ -14,7 +15,7 @@ module.exports = (request, response, next) => {
       debug(`Successfully saved new document id (${document.id}).`);
       return response.status(201)
         .set('location', `/api/documents/${document.id}`)
-        .json({ document: document.toJSON() });
+        .json({ document: toDocumentJson(document) });
     })
     .catch(next);
 };

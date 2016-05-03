@@ -83,5 +83,15 @@ describe('PUT /api/documents/:id', () => {
       });
   });
 
+  it('successfully publishes a document', () => {
+    return request()
+      .put(url)
+      .set('Authorization', token)
+      .send({ document: { published: true } })
+      .then(response => {
+        let doc = response.body.document;
+        expect(doc.published).to.equal(true);
+      });
+  });
 
 });

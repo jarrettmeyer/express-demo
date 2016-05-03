@@ -1,7 +1,7 @@
 'use strict';
 const Document = require('../../models/Document');
 const User = require('../../models/User');
-const toOwnerJson = require('./helpers/toOwnerJson');
+const toOwnerJson = require('./toOwnerJson');
 const _ = require('lodash');
 
 

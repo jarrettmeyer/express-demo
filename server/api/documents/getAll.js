@@ -1,6 +1,6 @@
 'use strict';
 const Document = require('../../models/Document');
-const toDocumentJson = require('./helpers/toDocumentJson');
+const toDocumentJson = require('./toDocumentJson');
 
 /**
  * getAll
