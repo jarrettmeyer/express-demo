@@ -1,9 +1,13 @@
 'use strict';
 const connectionString = require('./connectionString');
+const debug = require('debug')('sql');
 const Sequelize = require('Sequelize');
 
 let sequelize = new Sequelize(connectionString, {
-  // logging: false,
+  logging: function (msg) {
+    msg = msg.replace(/^Executing \(default\)\: /, '');
+    debug(msg);
+  },
   timestamps: false
 });
 
