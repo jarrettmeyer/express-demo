@@ -44,7 +44,7 @@ describe('POST /api/documents', () => {
       .expect(400)
       .then(response => {
         expect(response.body.message).to.equal('The data submitted was not valid.');
-        expect(response.body.errors[0].message).to.equal('title is required.');
+        expect(response.body.errors[0].message).to.equal('title cannot be null');
       });
   });
 

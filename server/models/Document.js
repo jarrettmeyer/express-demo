@@ -14,7 +14,7 @@ const Document = sequelize.define('document', {
       key: 'id'
     }
   },
-  title: { type: Sequelize.STRING },
+  title: { type: Sequelize.STRING, allowNull: false, notNull: true },
   abstract: { type: Sequelize.TEXT },
   originalFilename: { type: Sequelize.STRING, field: 'original_filename' },
   type: { type: Sequelize.STRING },
