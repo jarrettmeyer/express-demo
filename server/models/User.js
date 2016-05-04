@@ -18,18 +18,4 @@ const User = sequelize.define('user', {
 
 findOneByEmail(User);
 
-//
-//   toJSON() {
-//     return {
-//       id: this.id,
-//       displayName: this.displayName,
-//       email: this.email,
-//       admin: this.admin,
-//       removed: this.removed,
-//       tokenIssuedAt: this.tokenIssuedAt,
-//       createdAt: this.createdAt
-//     };
-//   }
-// }
-
 module.exports = User;
