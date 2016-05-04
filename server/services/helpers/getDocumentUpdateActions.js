@@ -1,7 +1,6 @@
 'use strict';
 const isDocumentEdit = require('./isDocumentEdit');
 const isDocumentPublished = require('./isDocumentPublished');
-const isDocumentRemoved = require('./isDocumentRemoved');
 const isDocumentUnpublished = require('./isDocumentUnpublished');
 
 function getDocumentUpdateActions(originalDocument, updatedDocument) {
@@ -14,9 +13,6 @@ function getDocumentUpdateActions(originalDocument, updatedDocument) {
   }
   if (isDocumentUnpublished(originalDocument, updatedDocument)) {
     actions.push('unpublish');
-  }
-  if (isDocumentRemoved(originalDocument, updatedDocument)) {
-    actions.push('remove');
   }
   return actions;
 }
