@@ -1,4 +1,5 @@
 'use strict';
+const ActivityLog = require('../models/ActivityLog');
 const checkCredentials = require('../services/checkCredentials');
 const createToken = require('../services/createToken');
 const debug = require('debug')('server');
@@ -28,6 +29,16 @@ module.exports = function (req, res, next) {
     .then(_token => {
       token = _token;
       return updateUserTokenIssuedAt(user.id, now);
+    })
+    .then(() => {
+      let activityLogSpec = {
+        refType: 'user',
+        refId: user.id,
+        description: 'login',
+        userId: user.id,
+        createdAt: new Date()
+      };
+      return ActivityLog.create(activityLogSpec);
     })
     .then(() => {
       return res.status(200).json({ token: token });
