@@ -1,6 +1,4 @@
-/* global -Promise */
 'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const Promise = require('bluebird');

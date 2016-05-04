@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
-const saveFile = require('../../services/saveFile');
+const saveFile = require('../../services/saveFileToDisk');
 
-describe('files/saveFile', () => {
+describe('services/saveFileToDisk', () => {
 
   it('saves a file', () => {
     return saveFile('Hello World!', { id: 123 })
