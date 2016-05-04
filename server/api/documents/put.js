@@ -16,7 +16,6 @@ function createActivityLogs(request, document) {
       userId: request.user.id,
       createdAt: new Date()
     };
-    console.log('here:', action);
     return ActivityLog.create(activityLogSpec);
   };
   return Promise.map(actions, promise)
