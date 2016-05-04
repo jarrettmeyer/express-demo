@@ -23,6 +23,8 @@ module.exports = (request, response) => {
       return ActivityLog.create(activityLogSpec);
     })
     .then(() => {
+      // A delete operation does not need to send anything back to the client.
+      // 204 No Content will suffice.
       return response.status(204).send();
     });
 };
