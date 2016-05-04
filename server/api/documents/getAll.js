@@ -10,20 +10,7 @@ const toDocumentJson = require('./toDocumentJson');
  * documents for all users.
  */
 module.exports = (request, response) => {
-  let documentCriteria = {
-    where: {
-      $and: [
-        {
-          $or: [
-            { ownerId: request.user.id },
-            { published: true }
-          ]
-        },
-        { removed: false }
-      ]
-    }
-  };
-  return Document.findAll(documentCriteria)
+  return Document.findAllForUser(request.user.id)
     .then(documents => {
       return response.status(200)
         .json({ documents: documents.map(toDocumentJson) });

@@ -1,5 +1,6 @@
 'use strict';
 const connection = require('./helpers/connection');
+const findAllForUser = require('./finders/document_findAllForUser');
 const findAllPublished = require('./finders/document_findAllPublished');
 const Sequelize = connection.Sequelize;
 const sequelize = connection.sequelize;
@@ -26,6 +27,8 @@ const Document = sequelize.define('document', {
   timestamps: false
 });
 
+// Add custom filters.
 findAllPublished(Document);
+findAllForUser(Document);
 
 module.exports = Document;
