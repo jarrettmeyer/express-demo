@@ -44,7 +44,6 @@ describe('DELETE /api/documents/:id', () => {
         });
       })
       .then(log => {
-        console.log('log:', log);
         expect(log.id).to.be.greaterThan(0);
       });
   });
