@@ -1,6 +1,7 @@
 'use strict';
 const ActivityLog = require('../../../models/ActivityLog');
 const createDocument = require('../createDocument');
+const Document = require('../../../models/Document');
 const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
@@ -22,7 +23,7 @@ describe('DELETE /api/documents/:id', () => {
   beforeEach(() => {
     token = getTokenForEmail('alice@example.com');
     title = `Delete Test ${Date.now()}`;
-    return createDocument({ title: title }, token)
+    return createDocument({ title: title, published: true }, token)
       .then(document => {
         documentId = document.id;
         url = `/api/documents/${document.id}`;
@@ -30,7 +31,7 @@ describe('DELETE /api/documents/:id', () => {
   });
 
 
-  it('creates an activity log entry', () => {
+  it('creates an activity log entry for remove', () => {
     return sendDelete(204)
       .then(() => {
         return ActivityLog.findOne({
@@ -39,6 +40,25 @@ describe('DELETE /api/documents/:id', () => {
               { refType: 'document' },
               { refId: documentId },
               { description: 'remove' }
+            ]
+          }
+        });
+      })
+      .then(log => {
+        expect(log.id).to.be.greaterThan(0);
+      });
+  });
+
+
+  it('creates an activity log entry for unpublish', () => {
+    return sendDelete(204)
+      .then(() => {
+        return ActivityLog.findOne({
+          where: {
+            $and: [
+              { refType: 'document' },
+              { refId: documentId },
+              { description: 'unpublish' }
             ]
           }
         });
@@ -71,6 +91,30 @@ describe('DELETE /api/documents/:id', () => {
   it('fails (404) when the id is invalid', () => {
     url = '/api/documents/999999';
     return sendDelete(404);
+  });
+
+
+  it('sets published: false', () => {
+    return sendDelete(204)
+      .then(() => {
+        return Document.findById(documentId);
+      })
+      .then(doc => {
+        expect(doc.id).to.equal(documentId);
+        expect(doc.published).to.equal(false);
+      });
+  });
+
+
+  it('sets removed: true', () => {
+    return sendDelete(204)
+      .then(() => {
+        return Document.findById(documentId);
+      })
+      .then(doc => {
+        expect(doc.id).to.equal(documentId);
+        expect(doc.removed).to.equal(true);
+      });
   });
 
 
