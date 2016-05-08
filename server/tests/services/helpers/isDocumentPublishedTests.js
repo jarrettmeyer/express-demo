@@ -22,7 +22,7 @@ describe('services/helpers/isDocumentRemoved', () => {
   it('returns false when no new information is given', () => {
     let isPublished = isDocumentPublished({ published: true }, { });
     expect(isPublished).to.equal(false);
-  })
+  });
 
   it('returns true when document is published', () => {
     let isPublished = isDocumentPublished({ published: false }, { published: true });

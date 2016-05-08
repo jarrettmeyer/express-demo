@@ -1,6 +1,7 @@
 /* jshint expr: true */
 'use strict';
 
+const Document = require('../../../models/Document');
 const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
 const request = require('../setupRequest');
@@ -21,6 +22,31 @@ describe('POST /api/documents', () => {
       }
     };
     validToken = getTokenForEmail('alice@example.com');
+  });
+
+  it('can create a document with published: true', () => {
+    postData.document.published = true;
+    return request()
+      .post(url)
+      .set('Authorization', validToken)
+      .send(postData)
+      .then(response => {
+        expect(response.body.document.id).to.be.greaterThan(0);
+        expect(response.body.document.published).to.equal(true);
+        return Document.findById(response.body.document.id);
+      })
+      .then(doc => {
+        expect(doc.published).to.equal(true);
+      });
+  });
+
+  it('cannot create a document with removed: true', () => {
+    postData.document.removed = true;
+    return request()
+      .post(url)
+      .set('Authorization', validToken)
+      .send(postData)
+      .expect(400);
   });
 
   it('returns 201', () => {

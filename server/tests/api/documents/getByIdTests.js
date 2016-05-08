@@ -52,10 +52,13 @@ describe('GET /api/documents/:id', () => {
   });
 
   it('does not return a removed document', () => {
-    return createDocument({ removed: true })
-      .then(doc => {
+    return request()
+      .delete(url)
+      .set('Authorization', token)
+      .expect(204)
+      .then(() => {
         return request()
-          .get(`/api/documents/${doc.id}`)
+          .get(url)
           .set('Authorization', token)
           .expect(404);
       });
