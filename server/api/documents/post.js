@@ -22,7 +22,8 @@ module.exports = (request, response, next) => {
   }
   documentData.ownerId = request.user.id;
   debug(`Saving a new document for owner (${documentData.ownerId}).`);
-  return createDocument(documentData, { userId: request.user.id })
+  let options = { userId: request.user.id, createdAt: new Date() };
+  return createDocument(documentData, options)
     .then(return201(response))
     .catch(next);
 };

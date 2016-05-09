@@ -1,6 +1,7 @@
 /* jshint expr: true */
 'use strict';
 
+const ActivityLog = require('../../../models/ActivityLog');
 const Document = require('../../../models/Document');
 const expect = require('chai').expect;
 const getTokenForEmail = require('../getTokenForEmail');
@@ -48,6 +49,44 @@ describe('POST /api/documents', () => {
       .send(postData)
       .expect(400);
   });
+
+
+  it('inserts an activity log for "create"', () => {
+    return request()
+      .post(url)
+      .set('Authorization', validToken)
+      .send(postData)
+      .then(response => {
+        let id = response.body.document.id;
+        return ActivityLog.findAllForDocument(id);
+      })
+      .then(logs => {
+        let createLog = logs.filter(log => {
+          return log.description === 'create';
+        })[0];
+        expect(createLog.id).to.be.greaterThan(0);
+      });
+  });
+
+
+  it('inserts an activity log for "publish"', () => {
+    postData.document.published = true;
+    return request()
+      .post(url)
+      .set('Authorization', validToken)
+      .send(postData)
+      .then(response => {
+        let id = response.body.document.id;
+        return ActivityLog.findAllForDocument(id);
+      })
+      .then(logs => {
+        let publishLog = logs.filter(log => {
+          return log.description === 'publish';
+        })[0];
+        expect(publishLog.id).to.be.greaterThan(0);
+      });
+  });
+
 
   it('returns 201', () => {
     return request()
