@@ -1,5 +1,6 @@
 'use strict';
 const connection = require('./helpers/connection');
+const findAllForDocument = require('./finders/activityLog/findAllForDocument');
 const Sequelize = connection.Sequelize;
 const sequelize = connection.sequelize;
 const User = require('./User');
@@ -8,7 +9,7 @@ const User = require('./User');
 const ActivityLog = sequelize.define('activity_log', {
   refType: { type: Sequelize.STRING, field: 'ref_type' },
   refId: { type: Sequelize.INTEGER, field: 'ref_id' },
-  description: { type: Sequelize.STRING },
+  description: { type: Sequelize.STRING, allowNull: false },
   userId: {
     type: Sequelize.INTEGER,
     field: 'user_id',
@@ -22,6 +23,10 @@ const ActivityLog = sequelize.define('activity_log', {
   tableName: 'activity_logs',
   timestamps: false
 });
+
+
+// Add custom filter.
+findAllForDocument(ActivityLog);
 
 
 module.exports = ActivityLog;

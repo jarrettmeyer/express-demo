@@ -1,6 +1,6 @@
 'use strict';
 const connection = require('./helpers/connection');
-const findOneByEmail = require('./finders/user_findOneByEmail');
+const findOneByEmail = require('./finders/user/findOneByEmail');
 const Sequelize = connection.Sequelize;
 const sequelize = connection.sequelize;
 

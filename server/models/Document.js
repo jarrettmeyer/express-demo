@@ -1,7 +1,7 @@
 'use strict';
 const connection = require('./helpers/connection');
-const findAllForUser = require('./finders/document_findAllForUser');
-const findAllPublished = require('./finders/document_findAllPublished');
+const findAllForUser = require('./finders/document/findAllForUser');
+const findAllPublished = require('./finders/document/findAllPublished');
 const Sequelize = connection.Sequelize;
 const sequelize = connection.sequelize;
 const User = require('./User');
