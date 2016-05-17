@@ -1,9 +1,9 @@
 'use strict';
+const HttpForbidden = require('../errors').HttpForbidden;
 
-module.exports = (req, res, next) => {
-  let user = req.user;
-  if (user.admin) {
+module.exports = (request, response, next) => {
+  if (request.user.admin) {
     return next();
   }
-  return res.status(403).send('forbidden');
+  return next(new HttpForbidden());
 };

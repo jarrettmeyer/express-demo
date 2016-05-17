@@ -73,6 +73,18 @@ function unauthorized() {
 }
 
 
+function toUserJson(user) {
+  // The user is a Sequelize object. We don't want to carry this object around
+  // with the request, since it opens up some weird possibilities. Instead, we
+  // cast the user to a plain old JavaScript object.
+  return {
+    admin: user.admin,
+    email: user.email,
+    id: user.id
+  };
+}
+
+
 function onUserFound(request, user, auth, next) {
   let verification = verifyUser(user, auth);
   if (!verification.verified) {
@@ -82,7 +94,7 @@ function onUserFound(request, user, auth, next) {
   if (!tokenTimeVerification.verified) {
     return next(unauthorized());
   }
-  request.user = user;
+  request.user = toUserJson(user);
   debug(`\u2714 Verified token. Current user: ${request.user.email}`);
   return next();
 }
