@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "async": "^1.5.2",
-    "bcrypt": "^0.8.5",
+    "bcrypt": "^5.0.0",
     "bluebird": "^3.3.3",
     "body-parser": "~1.13.2",
     "debug": "^2.2.0",
